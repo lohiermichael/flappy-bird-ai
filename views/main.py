@@ -19,6 +19,11 @@ class MainView(View):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self._quit_window()
+            elif event.type == pygame.KEYDOWN:
+                self.bird.jump()
+
+        self.bird.move()
+
         self._redraw_window()
 
     def _redraw_window(self):

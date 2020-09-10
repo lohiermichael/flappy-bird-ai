@@ -21,7 +21,7 @@ WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 800
 
 FPS = 30
-GRAVITY_CONSTANT = 9.8
+GRAVITY_CONSTANT = 3
 
 ####################### IMAGES #######################
 

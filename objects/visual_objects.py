@@ -10,6 +10,8 @@ class Bird:
     ROTATION_VELOCITY = 20
     ANIMATION_TIME = 5
     VERTICAL_INERTIA_HEIGHT = 50
+    MAX_ANGLE_DOWN = -90
+    MAX_TILT_DOWN = -80
 
     def __init__(self, x, y):
         """Initialize the bird object
@@ -24,14 +26,14 @@ class Bird:
         self.tilt = 0  # degrees to tilt
         self.tick_count = 0
         self.velocity = 0
-        self.height = self.y
+        self.start_jump_height = self.y
         self.image_count = 0
         self.image = self.IMAGES['wings_up']
 
     def jump(self):
         """Make the bird jump"""
 
-        self.velocity = 10.5  # To change to make the bird jump more or less quickly
+        self.velocity = -10.5  # To change to make the bird jump more or less quickly
         self.tick_count = 0  # Count of time since we last pressed the jump button
         self.start_jump_height = self.y
 
@@ -41,25 +43,28 @@ class Bird:
             depending on the values set in the jump method
         """
 
+        self.tick_count += 1
+
         displacement = 0.5 * GRAVITY_CONSTANT * \
             (self.tick_count)**2 + self.velocity * self.tick_count
 
-        # TODO Check if needed
-        #   # terminal velocity
-        # if displacement >= 16:
-        #     displacement = (displacement/abs(displacement)) * 16
+        # Terminal velocity
+        displacement = min(displacement, 16)
 
-        # if displacement < 0:
-        #     displacement -= 2
+        if displacement < 0:
+            displacement -= 2
 
         self.y = self.y + displacement
 
         # Tilt up: moving up or moving down with inertia
         if displacement < 0 or self.y < self.start_jump_height + self.VERTICAL_INERTIA_HEIGHT:
-            self.tilt = self.MAX_ROTATION
-        # Tilt dow
+            self.tilt = max(self.MAX_ROTATION, self.tilt)
+
+        # Tilt down
         else:
-            self.tilt = self.tilt + self.ROTATION_VELOCITY
+            if self.tilt > self.MAX_ANGLE_DOWN:
+                self.tilt -= self.ROTATION_VELOCITY
+            pass
 
     def draw(self, window):
         """Draw the bird
@@ -84,7 +89,7 @@ class Bird:
             self.image_count = 0
 
         # Make the bird not flap when it is nose diving
-        if self.tilt <= -80:
+        if self.tilt <= self.MAX_TILT_DOWN:
             self.image = self.IMAGES['wings_middle']
             self.image_count = self.ANIMATION_TIME*2
 
