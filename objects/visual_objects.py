@@ -10,11 +10,12 @@ class Bird:
     MAX_ROTATION = 25
     IMAGES = BIRD_IMAGES
     ROTATION_VELOCITY = 20
-    ANIMATION_TIME = 5
+    ANIMATION_TIME = 3
     VERTICAL_INERTIA_HEIGHT = 30
     MAX_ANGLE_DOWN = -90
     MAX_TILT_DOWN = -80
     EXTRA_JUMP = -3
+    HEIGHT = IMAGES['wings_middle'].get_height()
 
     def __init__(self, x, y):
         """Initialize the bird object
@@ -102,6 +103,50 @@ class Bird:
                            top_left=(self.x, self.y),
                            angle=self.tilt)
 
+    def collide_pipe(self, pipe):
+        """The bird collides a pipe
+
+        Args:
+            pipe (Pipe): a pipe
+
+        Returns:
+            bool: if it collides or not
+        """
+
+        # Bird mask
+        self.mask = pygame.mask.from_surface(self.image)
+        # Pipe masks
+        pipe_bottom_mask, pipe_top_mask = pipe.get_masks()
+
+        offset_with_bottom = (round(self.x - pipe.x),
+                              round(self.y - pipe.y_bottom))
+        offset_with_top = (round(self.x - pipe.x),
+                           round(self.y - pipe.y_top))
+
+        collision_bottom_points = self.mask.overlap(
+            pipe_bottom_mask, offset_with_bottom)
+        collision_top_points = self.mask.overlap(
+            pipe_top_mask, offset_with_top)
+
+        if collision_top_points or collision_bottom_points:
+            return True
+
+        return False
+
+    def collide_base(self, base):
+        """The bird collides a base
+
+        Args:
+            base (Base): a base
+
+        Returns:
+            bool: if it collides or not
+        """
+
+        if self.y + self.HEIGHT > base.y:
+            return True
+        return False
+
 
 def blit_rotate_center(window, image, top_left, angle):
     """Rotate a surface and blit it to the window
@@ -165,6 +210,12 @@ class Pipe:
 
         window.blit(self.IMAGES['top'], (self.x, self.top_height))
         window.blit(self.IMAGES['bottom'], (self.x, self.y_bottom))
+
+    def get_masks(self):
+        """Get the mask of the top part and the bottom part of the pipeline"""
+        bottom_mask = pygame.mask.from_surface(self.IMAGES['bottom'])
+        top_mask = pygame.mask.from_surface(self.IMAGES['top'])
+        return bottom_mask, top_mask
 
 
 class Base:

@@ -25,7 +25,7 @@ GAME_SPEED = 5
 WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 800
 
-FPS = 30
+FPS = 60
 GRAVITY_CONSTANT = 3  # For birds (minus wings flapping)
 
 
@@ -53,7 +53,7 @@ INITIAL_BACKGROUND_Y = 0
 
 ####################### PIPE #######################
 
-PIPE_WIDTH = 52
+PIPE_WIDTH = 80
 PIPE_HEIGHT = 400
 
 PIPE_IMAGES = {

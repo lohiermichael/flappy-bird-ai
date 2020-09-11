@@ -19,24 +19,45 @@ class MainView(View):
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
         self.base = Base(y=INITIAL_BASE_Y)
+        self.count = 0
 
     def _main_loop(self):
+
+        self._manage_events()
+
+        self._manage_collisions()
+
+        self._manage_pipes()
+
+        self._move_objects()
+
+        self._redraw_window()
+
+    def _manage_events(self):
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self._quit_window()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 self.bird.jump()
 
+    def _manage_collisions(self):
+
+        if self.bird.collide_base(self.base):
+            self.count += 1
+            print(f'collide {self.count}')
+
         for pipe in self.pipes:
-            pipe.move()
+            if self.bird.collide_pipe(pipe):
+                self.count += 1
+                print(f'collide pipe {self.count}')
+
+    def _manage_pipes(self):
 
         # Pipes to remove
         pipes_to_remove = []
 
         for pipe in self.pipes:
-            # Move the pipe
-            pipe.move()
-
             # If it gets off the screen add it to the list to remove
             if pipe.x + pipe.WIDTH < 0:
                 pipes_to_remove.append(pipe)
@@ -49,10 +70,15 @@ class MainView(View):
         for pipe_to_remove in pipes_to_remove:
             self.pipes.remove(pipe_to_remove)
 
-        self.bird.move()
-        self.base.move()
+    def _move_objects(self):
 
-        self._redraw_window()
+        # Bird
+        self.bird.move()
+        # Base
+        self.base.move()
+        # Pipes
+        for pipe in self.pipes:
+            pipe.move()
 
     def _redraw_window(self):
         self.clock.tick(FPS)
