@@ -20,13 +20,23 @@ class Image:
             self.image = pygame.transform.flip(self.image, False, True)
 
 
-GAME_SPEED = 5
-
 WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 800
 
+####################### GAME #######################
+
 FPS = 60
 GRAVITY_CONSTANT = 3  # For birds (minus wings flapping)
+GAME_SPEED = 5
+
+
+GAME_OVER_WIDTH = 300
+GAME_OVER_HEIGHT = 150
+GAME_OVER_IMAGE = Image(path='./img/game_over.png',
+                        scale=True,
+                        dimensions=(GAME_OVER_WIDTH, GAME_OVER_HEIGHT)).image
+GAME_OVER_X = 150
+GAME_OVER_Y = 300
 
 
 ####################### BIRDS #######################

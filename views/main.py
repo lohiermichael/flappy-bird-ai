@@ -1,7 +1,9 @@
 import pygame
 
 from .view_management.view_template import View
+
 from objects.visual_objects import Bird, Pipe, Base
+from objects.game_objects import Game
 
 from config import *
 
@@ -13,13 +15,14 @@ class MainView(View):
 
         self.name = 'main'
 
+        self.game = Game()
+
         self.bird = Bird(x=INITIAL_BIRD_X,
                          y=INITIAL_BIRD_Y)
 
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
         self.base = Base(y=INITIAL_BASE_Y)
-        self.count = 0
 
     def _main_loop(self):
 
@@ -39,18 +42,17 @@ class MainView(View):
             if event.type == pygame.QUIT:
                 self._quit_window()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                self.bird.jump()
+                if self.game.active:
+                    self.bird.jump()
 
     def _manage_collisions(self):
 
         if self.bird.collide_base(self.base):
-            self.count += 1
-            print(f'collide {self.count}')
+            self.game.active = False
 
         for pipe in self.pipes:
             if self.bird.collide_pipe(pipe):
-                self.count += 1
-                print(f'collide pipe {self.count}')
+                self.game.active = False
 
     def _manage_pipes(self):
 
@@ -72,13 +74,15 @@ class MainView(View):
 
     def _move_objects(self):
 
+        if self.game.active:
+            # Base
+            self.base.move()
+            # Pipes
+            for pipe in self.pipes:
+                pipe.move()
+
         # Bird
         self.bird.move()
-        # Base
-        self.base.move()
-        # Pipes
-        for pipe in self.pipes:
-            pipe.move()
 
     def _redraw_window(self):
         self.clock.tick(FPS)
@@ -91,5 +95,8 @@ class MainView(View):
             pipe.draw(window=self.window)
 
         self.base.draw(window=self.window)
+
+        if not self.game.active:
+            self.game.draw_game_over(window=self.window)
 
         pygame.display.update()
