@@ -53,12 +53,15 @@ INITIAL_BACKGROUND_Y = 0
 
 ####################### PIPE #######################
 
+PIPE_WIDTH = 52
+PIPE_HEIGHT = 400
+
 PIPE_IMAGES = {
-    'bottom': Image(path='./img/pipe.png').image,
-    'top': Image(path='./img/pipe.png', reverse=True).image
+    'bottom': Image(path='./img/pipe.png', scale=True, dimensions=(PIPE_WIDTH, PIPE_HEIGHT)).image,
+    'top': Image(path='./img/pipe.png', reverse=True, scale=True, dimensions=(PIPE_WIDTH, PIPE_HEIGHT)).image
 }
 
-INITIAL_PIPE_X = 500
+INITIAL_PIPE_X = 700
 
 
 ####################### BASE #######################

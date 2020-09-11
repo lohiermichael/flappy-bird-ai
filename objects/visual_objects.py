@@ -11,7 +11,7 @@ class Bird:
     IMAGES = BIRD_IMAGES
     ROTATION_VELOCITY = 20
     ANIMATION_TIME = 5
-    VERTICAL_INERTIA_HEIGHT = 50
+    VERTICAL_INERTIA_HEIGHT = 30
     MAX_ANGLE_DOWN = -90
     MAX_TILT_DOWN = -80
     EXTRA_JUMP = -3
@@ -128,11 +128,12 @@ class Pipe:
     GAP = 200
     VELOCITY = GAME_SPEED
     IMAGES = PIPE_IMAGES
-    PIPE_IMAGE_HEIGHT = IMAGES['top'].get_height()
+    HEIGHT = IMAGES['top'].get_height()
+    WIDTH = IMAGES['top'].get_width()
 
     # img_height = 320
     # img_height * 2 + gap = 840
-    MIN_HEIGHT = -40
+    MIN_HEIGHT = -200
     MAX_HEIGHT = 0
 
     def __init__(self, x):
@@ -147,7 +148,7 @@ class Pipe:
         self.passed = False
 
         self.top_height = randint(self.MIN_HEIGHT, self.MAX_HEIGHT)
-        self.y_top = self.top_height + self.PIPE_IMAGE_HEIGHT
+        self.y_top = self.top_height + self.HEIGHT
         self.y_bottom = self.y_top + self.GAP
 
     def move(self):

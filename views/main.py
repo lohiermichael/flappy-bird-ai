@@ -15,7 +15,8 @@ class MainView(View):
 
         self.bird = Bird(x=INITIAL_BIRD_X,
                          y=INITIAL_BIRD_Y)
-        self.pipe = Pipe(x=INITIAL_PIPE_X)
+
+        self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
         self.base = Base(y=INITIAL_BASE_Y)
 
@@ -26,7 +27,28 @@ class MainView(View):
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 self.bird.jump()
 
-        self.pipe.move()
+        for pipe in self.pipes:
+            pipe.move()
+
+        # Pipes to remove
+        pipes_to_remove = []
+
+        for pipe in self.pipes:
+            # Move the pipe
+            pipe.move()
+
+            # If it gets off the screen add it to the list to remove
+            if pipe.x + pipe.WIDTH < 0:
+                pipes_to_remove.append(pipe)
+
+            # If the pipe is passed create a new one
+            if not pipe.passed and pipe.x < self.bird.x:
+                pipe.passed = True
+                self.pipes.append(Pipe(x=INITIAL_PIPE_X))
+
+        for pipe_to_remove in pipes_to_remove:
+            self.pipes.remove(pipe_to_remove)
+
         self.bird.move()
         self.base.move()
 
@@ -39,7 +61,9 @@ class MainView(View):
         self.bird.draw(window=self.window)
 
         # Draw the pipe first and then the base
-        self.pipe.draw(window=self.window)
+        for pipe in self.pipes:
+            pipe.draw(window=self.window)
+
         self.base.draw(window=self.window)
 
         pygame.display.update()
