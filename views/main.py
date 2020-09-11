@@ -3,7 +3,7 @@ import pygame
 from .view_management.view_template import View
 
 from objects.visual_objects import Bird, Pipe, Base
-from objects.game_objects import Game
+from objects.game_objects import Game, RectangularButton
 
 from config import *
 
@@ -16,6 +16,7 @@ class MainView(View):
         self.name = 'main'
 
         self.game = Game()
+        self.replay = False
 
         self.bird = Bird(x=INITIAL_BIRD_X,
                          y=INITIAL_BIRD_Y)
@@ -23,6 +24,14 @@ class MainView(View):
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
         self.base = Base(y=INITIAL_BASE_Y)
+
+        self.replay_button = RectangularButton(font=REPLAY_BUTTON_FONT,
+                                               color=REPLAY_BUTTON_COLOR,
+                                               border=True,
+                                               center=REPLAY_BUTTON_CENTER,
+                                               height=REPLAY_BUTTON_HEIGHT,
+                                               width=REPLAY_BUTTON_WIDTH,
+                                               text=REPLAY_BUTTON_TEXT)
 
     def _main_loop(self):
 
@@ -39,11 +48,19 @@ class MainView(View):
     def _manage_events(self):
 
         for event in pygame.event.get():
+            # Quite the window
             if event.type == pygame.QUIT:
                 self._quit_window()
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                if self.game.active:
-                    self.bird.jump()
+
+            # Make the bird jump
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.game.active:
+                self.bird.jump()
+
+            # Restart the game
+            elif event.type == pygame.MOUSEBUTTONUP and not self.game.active:
+                if self.replay_button.is_under(pygame.mouse.get_pos()):
+                    self.replay = True
+                    self._quit_window()
 
     def _manage_collisions(self):
 
@@ -97,6 +114,7 @@ class MainView(View):
         self.base.draw(window=self.window)
 
         if not self.game.active:
-            self.game.draw_game_over(window=self.window)
+            self.game.draw_end_game(window=self.window,
+                                    replay_button=self.replay_button)
 
         pygame.display.update()

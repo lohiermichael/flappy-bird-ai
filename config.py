@@ -1,5 +1,7 @@
 import pygame
 
+pygame.font.init()
+
 
 class Image:
     def __init__(self, path, scale=False, dimensions=None, reverse=False):
@@ -30,6 +32,8 @@ GRAVITY_CONSTANT = 3  # For birds (minus wings flapping)
 GAME_SPEED = 5
 
 
+# Game over message
+
 GAME_OVER_WIDTH = 300
 GAME_OVER_HEIGHT = 150
 GAME_OVER_IMAGE = Image(path='./img/game_over.png',
@@ -37,6 +41,14 @@ GAME_OVER_IMAGE = Image(path='./img/game_over.png',
                         dimensions=(GAME_OVER_WIDTH, GAME_OVER_HEIGHT)).image
 GAME_OVER_X = 150
 GAME_OVER_Y = 300
+
+# Replay button
+REPLAY_BUTTON_FONT = pygame.font.SysFont('Comic Sans MS', 30)
+REPLAY_BUTTON_COLOR = (0, 0, 0)
+REPLAY_BUTTON_CENTER = (WINDOW_WIDTH/2, 450)
+REPLAY_BUTTON_WIDTH = 120
+REPLAY_BUTTON_HEIGHT = 50
+REPLAY_BUTTON_TEXT = 'Replay'
 
 
 ####################### BIRDS #######################
