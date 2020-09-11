@@ -105,6 +105,7 @@ class MainView(View):
         self.clock.tick(FPS)
         self.window.blit(BACKGROUND_IMAGE,
                          (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
+
         self.bird.draw(window=self.window)
 
         # Draw the pipe first and then the base
@@ -112,6 +113,8 @@ class MainView(View):
             pipe.draw(window=self.window)
 
         self.base.draw(window=self.window)
+
+        self.game.draw_score(window=self.window)
 
         if not self.game.active:
             self.game.draw_end_game(window=self.window,

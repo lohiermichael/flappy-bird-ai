@@ -27,13 +27,21 @@ WINDOW_HEIGHT = 800
 
 ####################### GAME #######################
 
+WINDOW_WIDTH = 600
+WINDOW_HEIGHT = 800
 FPS = 60
 GRAVITY_CONSTANT = 3  # For birds (minus wings flapping)
 GAME_SPEED = 5
+STAT_FONT = pygame.font.SysFont("comicsans", 40)
+
+# Score
+SCORE_FONT = STAT_FONT
+SCORE_COLOR = (255, 255, 255)
+SCORE_WIDTH = 30
+SCORE_HEIGHT = 10
 
 
 # Game over message
-
 GAME_OVER_WIDTH = 300
 GAME_OVER_HEIGHT = 150
 GAME_OVER_IMAGE = Image(path='./img/game_over.png',

@@ -8,6 +8,13 @@ class Game:
         self.score = 0
         self.active = True
 
+    def draw_score(self, window):
+        score_text = f'Score: {self.score}'
+
+        score_label = SCORE_FONT.render(score_text, 1, SCORE_COLOR)
+
+        window.blit(score_label, (SCORE_WIDTH, SCORE_HEIGHT))
+
     def draw_end_game(self, window, replay_button):
 
         # Draw game over message
