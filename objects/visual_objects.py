@@ -118,10 +118,10 @@ class Bird:
         # Pipe masks
         pipe_bottom_mask, pipe_top_mask = pipe.get_masks()
 
-        offset_with_bottom = (round(self.x - pipe.x),
-                              round(self.y - pipe.y_bottom))
-        offset_with_top = (round(self.x - pipe.x),
-                           round(self.y - pipe.y_top))
+        offset_with_bottom = (pipe.x - self.x,
+                              pipe.y_bottom - round(self.y))
+        offset_with_top = (pipe.x - self.x,
+                           round(self.y)-pipe.y_top)
 
         collision_bottom_points = self.mask.overlap(
             pipe_bottom_mask, offset_with_bottom)
@@ -170,7 +170,7 @@ class Pipe:
     """Pipe class representing a pipe (top and bottom)"""
 
     # Gap between the top and the bottom parts
-    GAP = 200
+    GAP = 250
     VELOCITY = GAME_SPEED
     IMAGES = PIPE_IMAGES
     HEIGHT = IMAGES['top'].get_height()
