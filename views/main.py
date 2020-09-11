@@ -43,6 +43,8 @@ class MainView(View):
 
         self._move_objects()
 
+        self._update_score()
+
         self._redraw_window()
 
     def _manage_events(self):
@@ -81,11 +83,6 @@ class MainView(View):
             if pipe.x + pipe.WIDTH < 0:
                 pipes_to_remove.append(pipe)
 
-            # If the pipe is passed create a new one
-            if not pipe.passed and pipe.x < self.bird.x:
-                pipe.passed = True
-                self.pipes.append(Pipe(x=INITIAL_PIPE_X))
-
         for pipe_to_remove in pipes_to_remove:
             self.pipes.remove(pipe_to_remove)
 
@@ -100,6 +97,14 @@ class MainView(View):
 
         # Bird
         self.bird.move()
+
+    def _update_score(self):
+        for pipe in self.pipes:
+            # If the pipe is passed create a new one
+            if not pipe.passed and pipe.x < self.bird.x:
+                pipe.passed = True
+                self.pipes.append(Pipe(x=INITIAL_PIPE_X))
+                self.game.score += 1
 
     def _redraw_window(self):
         self.clock.tick(FPS)

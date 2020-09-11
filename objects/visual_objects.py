@@ -14,8 +14,9 @@ class Bird:
     VERTICAL_INERTIA_HEIGHT = 30
     MAX_ANGLE_DOWN = -90
     MAX_TILT_DOWN = -80
-    EXTRA_JUMP = -3
+    EXTRA_JUMP = -2
     HEIGHT = IMAGES['wings_middle'].get_height()
+    MARGIN_HITBOX = 50
 
     def __init__(self, x, y):
         """Initialize the bird object
@@ -121,7 +122,7 @@ class Bird:
         offset_with_bottom = (pipe.x - self.x,
                               pipe.y_bottom - round(self.y))
         offset_with_top = (pipe.x - self.x,
-                           round(self.y)-pipe.y_top)
+                           round(self.y)-pipe.y_top+self.MARGIN_HITBOX)
 
         collision_bottom_points = self.mask.overlap(
             pipe_bottom_mask, offset_with_bottom)
