@@ -1,4 +1,6 @@
 import os
+from random import randint
+
 from config import *
 
 
@@ -117,3 +119,90 @@ def blit_rotate_center(window, image, top_left, angle):
     new_rectangle = rotated_image.get_rect(
         center=image.get_rect(topleft=top_left).center)
     window.blit(rotated_image, new_rectangle.topleft)
+
+
+class Pipe:
+    """Pipe class representing a pipe (top and bottom)"""
+
+    # Gap between the top and the bottom parts
+    GAP = 200
+    VELOCITY = GAME_SPEED
+    IMAGES = PIPE_IMAGES
+    PIPE_IMAGE_HEIGHT = IMAGES['top'].get_height()
+
+    # img_height = 320
+    # img_height * 2 + gap = 840
+    MIN_HEIGHT = -40
+    MAX_HEIGHT = 0
+
+    def __init__(self, x):
+        """Initialize Pipe object
+
+        Args:
+            x (int): x-coordinate
+        """
+
+        self.x = x
+
+        self.passed = False
+
+        self.top_height = randint(self.MIN_HEIGHT, self.MAX_HEIGHT)
+        self.y_top = self.top_height + self.PIPE_IMAGE_HEIGHT
+        self.y_bottom = self.y_top + self.GAP
+
+    def move(self):
+        """Move the pipe based on velocity
+        """
+        self.x -= self.VELOCITY
+
+    def draw(self, window):
+        """Draw the top and the bottom part of the pipe
+
+        Args:
+            window : Pygame window
+        """
+
+        window.blit(self.IMAGES['top'], (self.x, self.top_height))
+        window.blit(self.IMAGES['bottom'], (self.x, self.y_bottom))
+
+
+class Base:
+    """Base class representing base floor"""
+
+    VELOCITY = GAME_SPEED
+    IMAGE = BASE_IMAGE
+    WIDTH = IMAGE.get_width()
+
+    def __init__(self, y):
+        """Initialize Base object
+
+        Args:
+            y (int): y-coordinate
+        """
+
+        self.y = y
+
+        # Two images
+        self.x1 = 0
+        self.x2 = self.WIDTH
+
+    def move(self):
+        """Move the floor so it looks like scrolling"""
+        self.x1 -= self.VELOCITY
+        self.x2 -= self.VELOCITY
+
+        if self.x1 + self.WIDTH < 0:
+            self.x1 = self.x2 + self.WIDTH
+
+        if self.x2 + self.WIDTH < 0:
+            self.x2 = self.x1 + self.WIDTH
+
+    def draw(self, window):
+        """Draw the base floor
+
+        Args:
+            window : Pygame window
+        """
+
+        window.blit(self.IMAGE, (self.x1, self.y))
+        window.blit(self.IMAGE, (self.x2, self.y))
