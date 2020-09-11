@@ -21,7 +21,7 @@ WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 800
 
 FPS = 30
-GRAVITY_CONSTANT = 3
+GRAVITY_CONSTANT = 3  # For birds (minus wings flapping)
 
 ####################### IMAGES #######################
 

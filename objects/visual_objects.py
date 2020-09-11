@@ -12,6 +12,7 @@ class Bird:
     VERTICAL_INERTIA_HEIGHT = 50
     MAX_ANGLE_DOWN = -90
     MAX_TILT_DOWN = -80
+    EXTRA_JUMP = -3
 
     def __init__(self, x, y):
         """Initialize the bird object
@@ -51,8 +52,9 @@ class Bird:
         # Terminal velocity
         displacement = min(displacement, 16)
 
+        # Extra jump
         if displacement < 0:
-            displacement -= 2
+            displacement -= self.EXTRA_JUMP
 
         self.y = self.y + displacement
 
