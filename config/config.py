@@ -27,18 +27,20 @@ WINDOW_HEIGHT = 800
 
 ####################### GAME #######################
 
+##### Play view #####
+
 WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 800
 FPS = 30
 GRAVITY_CONSTANT = 3  # For birds (minus wings flapping)
-GAME_SPEED = 30
+GAME_SPEED = 40
 STAT_FONT = pygame.font.SysFont("comicsans", 40)
 
 # Score
 SCORE_FONT = STAT_FONT
 SCORE_COLOR = (255, 255, 255)
-SCORE_WIDTH = 30
-SCORE_HEIGHT = 10
+SCORE_X = 30
+SCORE_Y = 10
 
 
 # Game over message
@@ -58,6 +60,14 @@ REPLAY_BUTTON_WIDTH = 120
 REPLAY_BUTTON_HEIGHT = 50
 REPLAY_BUTTON_TEXT = 'Replay'
 
+##### Train AI view #####
+
+# Generation
+GENERATION_FONT = STAT_FONT
+GENERATION_COLOR = (255, 255, 255)
+GENERATION_X = 30
+GENERATION_Y = 35
+
 
 ####################### BIRDS #######################
 
@@ -69,7 +79,7 @@ BIRD_IMAGES = {
 
 
 INITIAL_BIRD_X = 200
-INITIAL_BIRD_Y = 500
+INITIAL_BIRD_Y = 300
 
 ####################### BACKGROUND #######################
 

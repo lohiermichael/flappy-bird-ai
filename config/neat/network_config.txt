@@ -2,10 +2,10 @@
 # The function we use to determine the best bird: max
 fitness_criterion     = max
 # The level of fitness we want to get: here the score of 100
-fitness_threshold     = 100
-pop_size              = 50
+fitness_threshold     = 10000
+pop_size              = 3
 # If a specie goes instinct we don't reset its values
-reset_on_extinction   = False
+reset_on_extinction   = True
 
 [DefaultGenome]
 # A population member, i.e. a bird is a genome

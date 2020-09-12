@@ -4,7 +4,7 @@ import neat
 from .view_management.view_template import View
 
 from objects.visual_objects import Bird, Pipe, Base
-from objects.game_objects import Game, RectangularButton
+from objects.game_objects import GameTrainAI, RectangularButton
 
 from config.config import *
 from config.neat.neat_config import NETWORK_CONFIG_FILE, FITNESS_DECREASE_DIE, FITNESS_INCREASE_PASS_PIE
@@ -16,14 +16,7 @@ class TrainView(View):
         super().__init__()
 
         self.name = 'train'
-
-        self.generation = 0
-
-        self.pipes = [Pipe(x=INITIAL_PIPE_X)]
-
-        self.base = Base(y=INITIAL_BASE_Y)
-
-        self.score = 0
+        self.game = GameTrainAI()
 
     def neat_eval_genome(self, genomes, config):
         """Runs the simulation of the current population of birds
@@ -38,13 +31,20 @@ class TrainView(View):
         self.neat_genomes = genomes
         self.neat_config = config
 
-        self._initialize_genome_objects()
+        self._initialize_objects()
 
         self.start_main_loop()
 
-    def _initialize_genome_objects(self):
+    def _initialize_objects(self):
 
-        self.generation += 1
+        self.pipes = [Pipe(x=INITIAL_PIPE_X)]
+
+        self.base = Base(y=INITIAL_BASE_Y)
+
+        self.game.score = 0
+        self.game.generation += 1
+
+        self.active = True
 
         # The three following lists map on their index
         # Create lists for holding the genome (collection of birds)
@@ -64,7 +64,7 @@ class TrainView(View):
             # Initialize the NeatManager objects
             self.nets.append(net)
             # Make all the birds at the same starting position
-            self.birds.append(Bird(INITIAL_BIRD_X, INITIAL_BACKGROUND_Y))
+            self.birds.append(Bird(INITIAL_BIRD_X, INITIAL_BIRD_Y))
             self.genomes.append(genome)
 
     def _main_loop(self):
@@ -163,11 +163,11 @@ class TrainView(View):
         as well as increasing their fitness level"""
 
         for pipe in self.pipes:
-            # Update score
-            self.score += 1
 
             # If the pipe is passed create a new one
-            if not self.birds or (not pipe.passed and pipe.x < self.birds[0].x):
+            if self.birds and (not pipe.passed and pipe.x < self.birds[0].x):
+                # Update score
+                self.game.score += 1
                 pipe.passed = True
                 self.pipes.append(Pipe(x=INITIAL_PIPE_X))
 
@@ -194,15 +194,17 @@ class TrainView(View):
 
         self.base.draw(window=self.window)
 
-        # self.game.draw_score(window=self.window)
+        self.game.draw_score(window=self.window)
+        self.game.draw_generation(window=self.window)
 
         pygame.display.update()
 
     def _check_terminal_condition(self):
         # If no bird living, leave the main loop
-        print(len(self.birds))
         if not self.birds:
             self.active = False
+            # Update best score
+            self.game.best_score = max(self.game.best_score, self.game.score)
 
 
 class NeatManagement:

@@ -4,7 +4,7 @@ from views.play import PlayView
 from views.train_ai import TrainView, NeatManagement
 from views.view_management.view_template import View
 
-from config.neat.neat_config import GENERATION_NUMBER
+from config.neat.neat_config import GENERATIONS_NUMBER
 
 
 def run_play():
@@ -19,7 +19,7 @@ def run_train_ai():
 
     eval_func = TrainView().neat_eval_genome
 
-    neat_management = NeatManagement(generations_number=GENERATION_NUMBER)
+    neat_management = NeatManagement(generations_number=GENERATIONS_NUMBER)
     neat_management.run(eval_func=eval_func)
 
 
