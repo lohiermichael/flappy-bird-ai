@@ -8,12 +8,12 @@ from objects.game_objects import GamePlay, RectangularButton
 from config.config import *
 
 
-class TestAIView(View):
+class PlayAgaintAI(View):
 
     def __init__(self, best_network):
         super().__init__()
 
-        self.name = 'test_ai'
+        self.name = 'play_against_ai'
 
         self.game = GamePlay()
         self.replay = False
@@ -22,6 +22,11 @@ class TestAIView(View):
 
         self.ai_bird = Bird(x=INITIAL_BIRD_X,
                             y=INITIAL_BIRD_Y, bird_type='ai')
+
+        self.player_bird = Bird(x=INITIAL_BIRD_X,
+                                y=INITIAL_BIRD_Y, bird_type='player')
+
+        self.birds = [self.ai_bird, self.player_bird]
 
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
@@ -51,12 +56,18 @@ class TestAIView(View):
 
         self._redraw_window()
 
+        self._check_terminal_condition()
+
     def _manage_events(self):
 
         for event in pygame.event.get():
             # Quite the window
             if event.type == pygame.QUIT:
                 self._quit_window()
+
+            # Make the  player bird jump
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.game.active:
+                self.player_bird.jump()
 
             # Restart the game
             elif event.type == pygame.MOUSEBUTTONUP and not self.game.active:
@@ -83,12 +94,14 @@ class TestAIView(View):
 
     def _manage_collisions(self):
 
-        if self.ai_bird.collide_base(self.base):
-            self.game.active = False
+        for bird in self.birds:
 
-        for pipe in self.pipes:
-            if self.ai_bird.collide_pipe(pipe):
-                self.game.active = False
+            if bird.collide_base(self.base):
+                self.birds.remove(bird)
+
+            for pipe in self.pipes:
+                if bird.collide_pipe(pipe):
+                    self.birds.remove(bird)
 
     def _manage_pipes(self):
 
@@ -112,13 +125,14 @@ class TestAIView(View):
             for pipe in self.pipes:
                 pipe.move()
 
-        # Bird
+        # Birds
         self.ai_bird.move()
+        self.player_bird.move()
 
     def _update_score(self):
         for pipe in self.pipes:
             # If the pipe is passed create a new one
-            if not pipe.passed and pipe.x < self.ai_bird.x:
+            if not pipe.passed and pipe.x < self.player_bird.x:
                 pipe.passed = True
                 self.pipes.append(Pipe(x=INITIAL_PIPE_X))
                 self.game.score += 1
@@ -128,7 +142,8 @@ class TestAIView(View):
         self.window.blit(BACKGROUND_IMAGE,
                          (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
 
-        self.ai_bird.draw(window=self.window)
+        for bird in self.birds:
+            bird.draw(window=self.window)
 
         # Draw the pipe first and then the base
         for pipe in self.pipes:
@@ -141,5 +156,9 @@ class TestAIView(View):
         if not self.game.active:
             self.game.draw_end_game(window=self.window,
                                     replay_button=self.replay_button)
+
+    def _check_terminal_condition(self):
+        if not self.birds:
+            self.game.active = False
 
         pygame.display.update()

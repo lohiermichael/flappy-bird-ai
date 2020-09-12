@@ -8,7 +8,6 @@ class Bird:
     """Bird class representing the flappy bird"""
 
     MAX_ROTATION = 25
-    IMAGES = BIRD_IMAGES
     ROTATION_VELOCITY = 20
     ANIMATION_TIME = 3
     VERTICAL_INERTIA_HEIGHT = 30
@@ -17,13 +16,19 @@ class Bird:
     EXTRA_JUMP = -2
     MARGIN_HITBOX = 50
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, bird_type):
         """Initialize the bird object
 
         Args:
             x (int): Starting x position of the bird (top left corner)
             y (int): Starting y position of the bird (top left corner)
         """
+
+        assert bird_type in ['ai', 'player']
+        if bird_type == 'ai':
+            self.IMAGES = AI_BIRD_IMAGES
+        elif bird_type == 'player':
+            self.IMAGES = PLAYER_BIRD_IMAGES
 
         self.x = x
         self.y = y

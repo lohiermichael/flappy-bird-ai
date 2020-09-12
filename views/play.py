@@ -19,7 +19,7 @@ class PlayView(View):
         self.replay = False
 
         self.bird = Bird(x=INITIAL_BIRD_X,
-                         y=INITIAL_BIRD_Y)
+                         y=INITIAL_BIRD_Y, bird_type='player')
 
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 

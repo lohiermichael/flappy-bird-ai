@@ -83,10 +83,16 @@ BEST_SCORE_Y = int(WINDOW_HEIGHT/2)
 
 ####################### BIRDS #######################
 
-BIRD_IMAGES = {
-    'wings_down': Image(path='./img/bird/bird_wings_down.png', scale=2).image,
-    'wings_up': Image(path='./img/bird/bird_wings_up.png', scale=2).image,
-    'wings_middle': Image(path='./img/bird/bird_wings_middle.png', scale=2).image
+PLAYER_BIRD_IMAGES = {
+    'wings_down': Image(path='./img/bird/player/bird_wings_down.png', scale=2).image,
+    'wings_up': Image(path='./img/bird/player/bird_wings_up.png', scale=2).image,
+    'wings_middle': Image(path='./img/bird/player/bird_wings_middle.png', scale=2).image
+}
+
+AI_BIRD_IMAGES = {
+    'wings_down': Image(path='./img/bird/ai/bird_wings_down.png', scale=2).image,
+    'wings_up': Image(path='./img/bird/ai/bird_wings_up.png', scale=2).image,
+    'wings_middle': Image(path='./img/bird/ai/bird_wings_middle.png', scale=2).image
 }
 
 

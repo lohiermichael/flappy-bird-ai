@@ -6,6 +6,7 @@ from views.view_management.view_template import View
 from views.play import PlayView
 from views.train_ai import TrainAIView, NeatManagement, FinalTrainAIView
 from views.test_ai import TestAIView
+from views.play_against_ai import PlayAgaintAI
 
 from config.neat.neat_config import GENERATIONS_NUMBER, BEST_NETWORK_LOCATION
 
@@ -50,9 +51,19 @@ def run_test_ai():
         replay = test_ai_view.replay
 
 
+def run_play_against_ai():
+
+    with open(BEST_NETWORK_LOCATION, 'rb') as f:
+        best_network = pickle.load(f)
+
+    replay = True
+    while replay:
+        play_against_ai_view = PlayAgaintAI(best_network=best_network)
+        play_against_ai_view.start_main_loop()
+        replay = play_against_ai_view.replay
+
+
 if __name__ == "__main__":
     pygame.init()
 
-    run_train_ai()
-
-    run_test_ai()
+    run_play_against_ai()

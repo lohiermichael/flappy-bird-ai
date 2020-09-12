@@ -67,7 +67,8 @@ class TrainAIView(View):
             # Initialize the NeatManager objects
             self.nets.append(net)
             # Make all the birds at the same starting position
-            self.birds.append(Bird(INITIAL_BIRD_X, INITIAL_BIRD_Y))
+            self.birds.append(
+                Bird(x=INITIAL_BIRD_X, y=INITIAL_BIRD_Y, bird_type='ai'))
             self.genomes.append(genome)
 
     def _main_loop(self):
