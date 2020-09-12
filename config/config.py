@@ -74,6 +74,12 @@ BIRDS_COUNT_COLOR = (255, 255, 255)
 BIRDS_COUNT_X = 30
 BIRDS_COUNT_Y = 60
 
+# Best score
+BEST_SCORE_FONT = STAT_FONT
+BEST_SCORE_COLOR = (255, 255, 255)
+BEST_SCORE_X = int(WINDOW_WIDTH/5)
+BEST_SCORE_Y = int(WINDOW_HEIGHT/2)
+
 
 ####################### BIRDS #######################
 

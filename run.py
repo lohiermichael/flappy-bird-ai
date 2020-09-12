@@ -1,7 +1,7 @@
 import pygame
 
 from views.play import PlayView
-from views.train_ai import TrainView, NeatManagement
+from views.train_ai import TrainAIView, NeatManagement, FinalTrainAIView
 from views.view_management.view_template import View
 
 from config.neat.neat_config import GENERATIONS_NUMBER
@@ -17,10 +17,17 @@ def run_play():
 
 def run_train_ai():
 
-    eval_func = TrainView().neat_eval_genome
+    # Make the train view
+    train_view = TrainAIView()
 
+    # Run the genetic algorithm on the eval genome method of the train view
     neat_management = NeatManagement(generations_number=GENERATIONS_NUMBER)
-    neat_management.run(eval_func=eval_func)
+    neat_management.run(eval_func=train_view.neat_eval_genome)
+
+    # Make the final view
+    game = train_view.game
+    final_train_ai_view = FinalTrainAIView(game=game)
+    final_train_ai_view.start_main_loop()
 
 
 if __name__ == "__main__":

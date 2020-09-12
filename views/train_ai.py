@@ -10,12 +10,12 @@ from config.config import *
 from config.neat.neat_config import NETWORK_CONFIG_FILE, FITNESS_DECREASE_DIE, FITNESS_INCREASE_PASS_PIE
 
 
-class TrainView(View):
+class TrainAIView(View):
 
     def __init__(self):
         super().__init__()
 
-        self.name = 'train'
+        self.name = 'train_ai'
         self.game = GameTrainAI()
 
     def neat_eval_genome(self, genomes, config):
@@ -211,6 +211,41 @@ class TrainView(View):
             self.active = False
             # Update best score
             self.game.best_score = max(self.game.best_score, self.game.score)
+
+
+class FinalTrainAIView(View):
+    def __init__(self, game: GameTrainAI):
+        super().__init__()
+
+        self.game = game
+
+        self.name = 'final_train_ai'
+
+        self.base = Base(y=INITIAL_BASE_Y)
+
+    def _main_loop(self):
+
+        self._manage_events()
+
+        self._redraw_window()
+
+    def _manage_events(self):
+
+        for event in pygame.event.get():
+            # Quite the window
+            if event.type == pygame.QUIT:
+                self._quit_window()
+
+    def _redraw_window(self):
+        self.clock.tick(FPS)
+        self.window.blit(BACKGROUND_IMAGE,
+                         (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
+
+        self.base.draw(window=self.window)
+
+        self.game.draw_best_score(window=self.window)
+
+        pygame.display.update()
 
 
 class NeatManagement:

@@ -55,3 +55,11 @@ class GameTrainAI(Game):
             birds_count_text, 1, BIRDS_COUNT_COLOR)
 
         window.blit(birds_count_label, (BIRDS_COUNT_X, BIRDS_COUNT_Y))
+
+    def draw_best_score(self, window):
+        best_score_text = f'The best score of the AI is: {self.best_score}'
+
+        best_score_label = BEST_SCORE_FONT.render(
+            best_score_text, 1, BEST_SCORE_COLOR)
+
+        window.blit(best_score_label, (BEST_SCORE_X, BEST_SCORE_Y))
