@@ -2,11 +2,12 @@ import pickle
 
 import pygame
 
+from views.view_management.view_template import View
 from views.play import PlayView
 from views.train_ai import TrainAIView, NeatManagement, FinalTrainAIView
-from views.view_management.view_template import View
+from views.test_ai import TestAIView
 
-from config.neat.neat_config import GENERATIONS_NUMBER, BEST_NET_LOCATION
+from config.neat.neat_config import GENERATIONS_NUMBER, BEST_NETWORK_LOCATION
 
 
 def run_play():
@@ -28,7 +29,7 @@ def run_train_ai():
 
     # Save the best net
     best_network = train_view.best_network
-    with open(BEST_NET_LOCATION, 'wb') as f:
+    with open(BEST_NETWORK_LOCATION, 'wb') as f:
         pickle.dump(best_network, f)
 
         # Make the final view
@@ -37,7 +38,21 @@ def run_train_ai():
     final_train_ai_view.start_main_loop()
 
 
+def run_test_ai():
+
+    with open(BEST_NETWORK_LOCATION, 'rb') as f:
+        best_network = pickle.load(f)
+
+    replay = True
+    while replay:
+        test_ai_view = TestAIView(best_network=best_network)
+        test_ai_view.start_main_loop()
+        replay = test_ai_view.replay
+
+
 if __name__ == "__main__":
     pygame.init()
-    # run_play()
+
     run_train_ai()
+
+    run_test_ai()

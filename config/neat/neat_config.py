@@ -1,5 +1,5 @@
 NETWORK_CONFIG_FILE = './config/neat/network_config.txt'
-BEST_NET_LOCATION = './best_network.pkl'
+BEST_NETWORK_LOCATION = './best_network.pkl'
 
 GENERATIONS_NUMBER = 10
 

@@ -86,6 +86,8 @@ class TrainAIView(View):
 
         self._redraw_window()
 
+        self._update_best_net()
+
         self._check_terminal_condition()
 
     def _manage_events(self):
@@ -107,10 +109,10 @@ class TrainAIView(View):
         else:
             self._quit_window()
 
-        for bird in self.birds:
+        for i_bird, bird in enumerate(self.birds):
 
             # Send bird location, top pipe location and bottom pipe location and determine from network whether to jump or not
-            output_network = self.nets[self.birds.index(bird)].activate((bird.y, abs(
+            output_network = self.nets[i_bird].activate((bird.y, abs(
                 bird.y - self.pipes[pipe_index].y_top), abs(bird.y - self.pipes[pipe_index].y_bottom)))
 
             # we use a tanh activation function so result will be between -1 and 1. if over 0.5 jump
@@ -214,15 +216,16 @@ class TrainAIView(View):
 
         pygame.display.update()
 
+    def _update_best_net(self):
+        if len(self.nets) == 1 and self.game.score > self.game.best_score:
+            self.best_network = self.nets[0]
+
     def _check_terminal_condition(self):
         # If no bird living, leave the main loop
         if not self.birds:
             self.active = False
             # Update best score
-            if self.game.score > self.game.best_score:
-                self.game.best_score = self.game.score
-                if self.nets:
-                    self.best_net = self.nets[0]
+            self.game.best_score = max(self.game.score, self.game.best_score)
 
 
 class FinalTrainAIView(View):
