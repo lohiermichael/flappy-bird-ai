@@ -46,7 +46,7 @@ SCORE_Y = 10
 # Game over message
 GAME_OVER_WIDTH = 300
 GAME_OVER_HEIGHT = 150
-GAME_OVER_IMAGE = Image(path='./img/game_over.png',
+GAME_OVER_IMAGE = Image(path='./img/end_game/play/game_over.png',
                         scale=True,
                         dimensions=(GAME_OVER_WIDTH, GAME_OVER_HEIGHT)).image
 GAME_OVER_X = 150
@@ -79,6 +79,26 @@ BEST_SCORE_FONT = STAT_FONT
 BEST_SCORE_COLOR = (255, 255, 255)
 BEST_SCORE_X = int(WINDOW_WIDTH/5)
 BEST_SCORE_Y = int(WINDOW_HEIGHT/2)
+
+#### Play against AI ####
+
+# You won
+YOU_WON_WIDTH = 300
+YOU_WON_HEIGHT = 150
+YOU_WON_IMAGE = Image(path='./img/end_game/against_ai/you_won.png',
+                      scale=True,
+                      dimensions=(YOU_WON_WIDTH, YOU_WON_HEIGHT)).image
+YOU_WON_X = 150
+YOU_WON_Y = 300
+
+# AI won
+AI_WON_WIDTH = 300
+AI_WON_HEIGHT = 150
+AI_WON_IMAGE = Image(path='./img/end_game/against_ai/ai_won.png',
+                     scale=True,
+                     dimensions=(AI_WON_WIDTH, AI_WON_HEIGHT)).image
+AI_WON_X = 150
+AI_WON_Y = 300
 
 
 ####################### BIRDS #######################

@@ -25,6 +25,8 @@ class Bird:
         """
 
         assert bird_type in ['ai', 'player']
+
+        self.bird_type = bird_type
         if bird_type == 'ai':
             self.IMAGES = AI_BIRD_IMAGES
         elif bird_type == 'player':

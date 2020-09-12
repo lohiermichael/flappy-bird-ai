@@ -4,7 +4,7 @@ import neat
 from .view_management.view_template import View
 
 from objects.visual_objects import Bird, Pipe, Base
-from objects.game_objects import GameTrainAI, RectangularButton
+from objects.game_objects import GameTrainAI
 
 from config.config import *
 from config.neat.neat_config import NETWORK_CONFIG_FILE, FITNESS_DECREASE_DIE, FITNESS_INCREASE_PASS_PIE, FITNESS_INCREASE_ON_MOVE

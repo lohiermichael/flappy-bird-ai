@@ -3,7 +3,7 @@ import pygame
 from .view_management.view_template import View
 
 from objects.visual_objects import Bird, Pipe, Base
-from objects.game_objects import GamePlay, RectangularButton
+from objects.game_objects import GamePlayAgainAI, RectangularButton
 
 from config.config import *
 
@@ -15,7 +15,7 @@ class PlayAgaintAI(View):
 
         self.name = 'play_against_ai'
 
-        self.game = GamePlay()
+        self.game = GamePlayAgainAI()
         self.replay = False
 
         self.best_network = best_network
@@ -77,31 +77,35 @@ class PlayAgaintAI(View):
 
     def _make_ai_choose_jump(self):
 
-        if self.game.active:
+        # if self.game.active:
 
-            # Determine which pipe we must focus on (first or second)
-            pipe_index = 0
-            if len(self.pipes) > 1 and self.ai_bird.x > self.pipes[0].x + self.pipes[0].WIDTH:
-                pipe_index = 1
+        # Determine which pipe we must focus on (first or second)
+        pipe_index = 0
+        if len(self.pipes) > 1 and self.ai_bird.x > self.pipes[0].x + self.pipes[0].WIDTH:
+            pipe_index = 1
 
-            # Send bird location, top pipe location and bottom pipe location and determine from network whether to jump or not
-            output_network = self.best_network.activate((self.ai_bird.y, abs(
-                self.ai_bird.y - self.pipes[pipe_index].y_top), abs(self.ai_bird.y - self.pipes[pipe_index].y_bottom)))
+        # Send bird location, top pipe location and bottom pipe location and determine from network whether to jump or not
+        output_network = self.best_network.activate((self.ai_bird.y, abs(
+            self.ai_bird.y - self.pipes[pipe_index].y_top), abs(self.ai_bird.y - self.pipes[pipe_index].y_bottom)))
 
-            # we use a tanh activation function so result will be between -1 and 1. if over 0.5 jump
-            if output_network[0] > 0.5:
-                self.ai_bird.jump()
+        # we use a tanh activation function so result will be between -1 and 1. if over 0.5 jump
+        if output_network[0] > 0.5:
+            self.ai_bird.jump()
 
     def _manage_collisions(self):
 
-        for bird in self.birds:
+        if self.game.active:
 
-            if bird.collide_base(self.base):
-                self.birds.remove(bird)
+            for bird in self.birds:
 
-            for pipe in self.pipes:
-                if bird.collide_pipe(pipe):
+                if bird.collide_base(self.base):
                     self.birds.remove(bird)
+
+                for pipe in self.pipes:
+                    if bird.collide_pipe(pipe):
+                        self.birds.remove(bird)
+            # Determine the winner
+            self.game.winner = self.birds[0]
 
     def _manage_pipes(self):
 
@@ -153,12 +157,11 @@ class PlayAgaintAI(View):
 
         self.game.draw_score(window=self.window)
 
-        if not self.game.active:
+    def _check_terminal_condition(self):
+        if len(self.birds) == 1:
+            self.game.active = False
+
             self.game.draw_end_game(window=self.window,
                                     replay_button=self.replay_button)
-
-    def _check_terminal_condition(self):
-        if not self.birds:
-            self.game.active = False
 
         pygame.display.update()

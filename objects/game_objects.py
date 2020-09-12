@@ -63,3 +63,22 @@ class GameTrainAI(Game):
             best_score_text, 1, BEST_SCORE_COLOR)
 
         window.blit(best_score_label, (BEST_SCORE_X, BEST_SCORE_Y))
+
+
+class GamePlayAgainAI(Game):
+    YOU_WON_IMAGE = YOU_WON_IMAGE
+    AI_WON_IMAGE = AI_WON_IMAGE
+
+    def __init__(self):
+        super().__init__()
+        self.winner = None
+
+    def draw_end_game(self, window, replay_button):
+        if self.winner.bird_type == 'ai':
+            window.blit(AI_WON_IMAGE, (AI_WON_X, AI_WON_Y))
+
+        elif self.winner.bird_type == 'player':
+            window.blit(YOU_WON_IMAGE, (YOU_WON_X, YOU_WON_Y))
+
+        # Draw replay button
+        replay_button.draw(window=window)
