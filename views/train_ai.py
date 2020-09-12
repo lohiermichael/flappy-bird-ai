@@ -7,7 +7,7 @@ from objects.visual_objects import Bird, Pipe, Base
 from objects.game_objects import GameTrainAI, RectangularButton
 
 from config.config import *
-from config.neat.neat_config import NETWORK_CONFIG_FILE, FITNESS_DECREASE_DIE, FITNESS_INCREASE_PASS_PIE
+from config.neat.neat_config import NETWORK_CONFIG_FILE, FITNESS_DECREASE_DIE, FITNESS_INCREASE_PASS_PIE, FITNESS_INCREASE_ON_MOVE
 
 
 class TrainAIView(View):
@@ -119,17 +119,21 @@ class TrainAIView(View):
     def _manage_collisions(self):
         """"Remove fitness on collision and make the bird dies"""
 
+        indices_birds_to_remove = set()
+
         for bird_index, bird in enumerate(self.birds):
 
             if bird.collide_base(self.base):
-                self._remove_bird_on_index(bird_index)
+                indices_birds_to_remove.add(bird_index)
 
             elif bird.collide_top_window():
-                self._remove_bird_on_index(bird_index)
+                indices_birds_to_remove.add(bird_index)
 
             for pipe in self.pipes:
                 if bird.collide_pipe(pipe):
-                    self._remove_bird_on_index(bird_index)
+                    indices_birds_to_remove.add(bird_index)
+
+        self._remove_bird_on_indices(indices_birds_to_remove)
 
     def _manage_pipes(self):
 
@@ -153,8 +157,8 @@ class TrainAIView(View):
             pipe.move()
 
         # Grant each bird fitness on movement
-        for x, bird in enumerate(self.birds):
-            self.genomes[x].fitness += 0.1
+        for i_bird, bird in enumerate(self.birds):
+            self.genomes[i_bird].fitness += FITNESS_INCREASE_ON_MOVE
             bird.move()
 
     def _pass_pipe(self):
@@ -174,16 +178,20 @@ class TrainAIView(View):
             for genome in self.genomes:
                 genome.fitness += FITNESS_INCREASE_PASS_PIE
 
-    def _remove_bird_on_index(self, bird_index):
+    def _remove_bird_on_indices(self, indices_birds_to_remove):
 
-        # Decrease fitness
-        self.genomes[bird_index].fitness -= FITNESS_DECREASE_DIE
+        for bird_index in indices_birds_to_remove:
+            # Decrease fitness
+            self.genomes[bird_index].fitness -= FITNESS_DECREASE_DIE
 
-        self.game.living_birds -= 1
+            self.game.living_birds -= 1
 
-        self.birds.pop(bird_index)
-        self.nets.pop(bird_index)
-        self.genomes.pop(bird_index)
+        self.birds = [bird for i_bird, bird in enumerate(
+            self.birds) if i_bird not in indices_birds_to_remove]
+        self.genomes = [genome for i_bird, genome in enumerate(
+            self.genomes) if i_bird not in indices_birds_to_remove]
+        self.nets = [net for i_bird, net in enumerate(
+            self.nets) if i_bird not in indices_birds_to_remove]
 
     def _redraw_window(self):
         self.clock.tick(FPS)
