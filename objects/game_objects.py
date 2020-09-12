@@ -37,6 +37,9 @@ class GameTrainAI(Game):
         self.generation = -1
         self.best_score = 0
 
+        self.total_birds = 0
+        self.living_birds = 0
+
     def draw_generation(self, window):
         generation_text = f'Generation: {self.generation}'
 
@@ -44,3 +47,11 @@ class GameTrainAI(Game):
             generation_text, 1, GENERATION_COLOR)
 
         window.blit(genration_label, (GENERATION_X, GENERATION_Y))
+
+    def draw_birds_count(self, window):
+        birds_count_text = f'Birds count: {self.living_birds}/{self.total_birds}'
+
+        birds_count_label = BIRDS_COUNT_FONT.render(
+            birds_count_text, 1, BIRDS_COUNT_COLOR)
+
+        window.blit(birds_count_label, (BIRDS_COUNT_X, BIRDS_COUNT_Y))

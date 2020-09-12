@@ -68,6 +68,12 @@ GENERATION_COLOR = (255, 255, 255)
 GENERATION_X = 30
 GENERATION_Y = 35
 
+# Birds Count
+BIRDS_COUNT_FONT = STAT_FONT
+BIRDS_COUNT_COLOR = (255, 255, 255)
+BIRDS_COUNT_X = 30
+BIRDS_COUNT_Y = 60
+
 
 ####################### BIRDS #######################
 

@@ -43,6 +43,8 @@ class TrainView(View):
 
         self.game.score = 0
         self.game.generation += 1
+        self.game.total_birds = len(self.neat_genomes)
+        self.game.living_birds = len(self.neat_genomes)
 
         self.active = True
 
@@ -120,16 +122,13 @@ class TrainView(View):
         for bird_index, bird in enumerate(self.birds):
 
             if bird.collide_base(self.base):
-                self.genomes[bird_index].fitness -= FITNESS_DECREASE_DIE
                 self._remove_bird_on_index(bird_index)
 
             elif bird.collide_top_window():
-                self.genomes[bird_index].fitness -= FITNESS_DECREASE_DIE
                 self._remove_bird_on_index(bird_index)
 
             for pipe in self.pipes:
                 if bird.collide_pipe(pipe):
-                    self.genomes[bird_index].fitness -= FITNESS_DECREASE_DIE
                     self._remove_bird_on_index(bird_index)
 
     def _manage_pipes(self):
@@ -176,6 +175,12 @@ class TrainView(View):
                 genome.fitness += FITNESS_INCREASE_PASS_PIE
 
     def _remove_bird_on_index(self, bird_index):
+
+        # Decrease fitness
+        self.genomes[bird_index].fitness -= FITNESS_DECREASE_DIE
+
+        self.game.living_birds -= 1
+
         self.birds.pop(bird_index)
         self.nets.pop(bird_index)
         self.genomes.pop(bird_index)
@@ -196,6 +201,7 @@ class TrainView(View):
 
         self.game.draw_score(window=self.window)
         self.game.draw_generation(window=self.window)
+        self.game.draw_birds_count(window=self.window)
 
         pygame.display.update()
 
