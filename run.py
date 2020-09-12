@@ -1,12 +1,29 @@
 import pygame
 
-from views.main import MainView
+from views.play import PlayView
+from views.train_ai import TrainView, NeatManagement
 from views.view_management.view_template import View
+
+from config.neat.neat_config import GENERATION_NUMBER
+
+
+def run_play():
+    replay = True
+    while replay:
+        play_view = PlayView()
+        play_view.start_main_loop()
+        replay = play_view.replay
+
+
+def run_train_ai():
+
+    eval_func = TrainView().neat_eval_genome
+
+    neat_management = NeatManagement(generations_number=GENERATION_NUMBER)
+    neat_management.run(eval_func=eval_func)
+
 
 if __name__ == "__main__":
     pygame.init()
-    replay = True
-    while replay:
-        main_view = MainView()
-        main_view.start_main_loop()
-        replay = main_view.replay
+    # run_play()
+    run_train_ai()

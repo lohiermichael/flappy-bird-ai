@@ -5,10 +5,10 @@ from .view_management.view_template import View
 from objects.visual_objects import Bird, Pipe, Base
 from objects.game_objects import Game, RectangularButton
 
-from config import *
+from config.config import *
 
 
-class MainView(View):
+class PlayView(View):
 
     def __init__(self):
         super().__init__()

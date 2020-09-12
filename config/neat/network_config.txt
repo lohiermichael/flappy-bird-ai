@@ -1,0 +1,87 @@
+[NEAT]
+# The function we use to determine the best bird: max
+fitness_criterion     = max
+# The level of fitness we want to get: here the score of 100
+fitness_threshold     = 100
+pop_size              = 50
+# If a specie goes instinct we don't reset its values
+reset_on_extinction   = False
+
+[DefaultGenome]
+# A population member, i.e. a bird is a genome
+# Genomes have nodes and genes (connection between the nodes)
+# All genome will start with these options
+# Node activation options
+activation_default      = tanh
+# Change the activation function with a percentage rate
+activation_mutate_rate  = 0.0
+# The optional activation functions that we can pick
+activation_options      = tanh
+
+# Node aggregation options
+aggregation_default     = sum
+aggregation_mutate_rate = 0.0
+aggregation_options     = sum
+
+# Node bias options
+bias_init_mean          = 0.0
+bias_init_stdev         = 1.0
+bias_max_value          = 30.0
+bias_min_value          = -30.0
+bias_mutate_power       = 0.5
+bias_mutate_rate        = 0.7
+bias_replace_rate       = 0.1
+
+# Genome compatibility options
+compatibility_disjoint_coefficient = 1.0
+compatibility_weight_coefficient   = 0.5
+
+# Connection add/remove rates
+conn_add_prob           = 0.5
+conn_delete_prob        = 0.5
+
+# Connection enable options
+enabled_default         = True
+enabled_mutate_rate     = 0.01
+
+feed_forward            = True
+initial_connection      = full
+
+# Node add/remove rates
+node_add_prob           = 0.2
+node_delete_prob        = 0.2
+
+# Network parameters
+num_hidden              = 0
+num_inputs              = 3
+num_outputs             = 1
+
+# Node response options
+response_init_mean      = 1.0
+response_init_stdev     = 0.0
+response_max_value      = 30.0
+response_min_value      = -30.0
+response_mutate_power   = 0.0
+response_mutate_rate    = 0.0
+response_replace_rate   = 0.0
+
+# Connection weight options
+weight_init_mean        = 0.0
+weight_init_stdev       = 1.0
+weight_max_value        = 30
+weight_min_value        = -30
+weight_mutate_power     = 0.5
+weight_mutate_rate      = 0.8
+weight_replace_rate     = 0.1
+
+[DefaultSpeciesSet]
+compatibility_threshold = 3.0
+
+[DefaultStagnation]
+species_fitness_func = max
+max_stagnation       = 20
+species_elitism      = 2
+
+[DefaultReproduction]
+elitism            = 2
+survival_threshold = 0.2

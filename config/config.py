@@ -29,9 +29,9 @@ WINDOW_HEIGHT = 800
 
 WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 800
-FPS = 100
+FPS = 30
 GRAVITY_CONSTANT = 3  # For birds (minus wings flapping)
-GAME_SPEED = 15
+GAME_SPEED = 30
 STAT_FONT = pygame.font.SysFont("comicsans", 40)
 
 # Score
@@ -69,7 +69,7 @@ BIRD_IMAGES = {
 
 
 INITIAL_BIRD_X = 200
-INITIAL_BIRD_Y = 200
+INITIAL_BIRD_Y = 500
 
 ####################### BACKGROUND #######################
 

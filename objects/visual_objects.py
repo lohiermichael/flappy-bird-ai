@@ -1,7 +1,7 @@
 import os
 from random import randint
 
-from config import *
+from config.config import *
 
 
 class Bird:
@@ -147,6 +147,14 @@ class Bird:
         if self.y + self.HEIGHT > base.y:
             return True
         return False
+
+    def collide_top_window(self):
+        """The bird collides the top of the window
+
+        Returns:
+            bool: if it collides or not
+        """
+        return self.y < 0
 
 
 def blit_rotate_center(window, image, top_left, angle):
