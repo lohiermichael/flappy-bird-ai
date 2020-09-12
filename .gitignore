@@ -1,3 +1,5 @@
 .vscode
 
+*.pkl
+
 __pycache__

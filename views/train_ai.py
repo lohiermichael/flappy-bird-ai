@@ -17,6 +17,7 @@ class TrainAIView(View):
 
         self.name = 'train_ai'
         self.game = GameTrainAI()
+        self.best_network = None
 
     def neat_eval_genome(self, genomes, config):
         """Runs the simulation of the current population of birds
@@ -218,7 +219,10 @@ class TrainAIView(View):
         if not self.birds:
             self.active = False
             # Update best score
-            self.game.best_score = max(self.game.best_score, self.game.score)
+            if self.game.score > self.game.best_score:
+                self.game.best_score = self.game.score
+                if self.nets:
+                    self.best_net = self.nets[0]
 
 
 class FinalTrainAIView(View):
