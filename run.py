@@ -18,16 +18,18 @@ class ViewFlow:
 
     def run(self):
 
-        self.run_start()
+        while self.current_view is None or self.current_view.return_start_view:
 
-        if self.current_view.selected_game_type == 'Play Normal Game':
-            self.run_play()
-        elif self.current_view.selected_game_type == 'Train AI':
-            self.run_train_ai()
-        elif self.current_view.selected_game_type == 'Test AI':
-            self.run_test_ai()
-        elif self.current_view.selected_game_type == 'Play Against AI':
-            self.run_play_against_ai()
+            self.run_start()
+
+            if self.current_view.selected_game_type == 'Play Normal Game':
+                self.run_play()
+            elif self.current_view.selected_game_type == 'Train AI':
+                self.run_train_ai()
+            elif self.current_view.selected_game_type == 'Test AI':
+                self.run_test_ai()
+            elif self.current_view.selected_game_type == 'Play Against AI':
+                self.run_play_against_ai()
 
     def run_start(self):
         self.current_view = StartView()
@@ -47,17 +49,17 @@ class ViewFlow:
 
         # Run the genetic algorithm on the eval genome method of the train view
         neat_management = NeatManagement(generations_number=GENERATIONS_NUMBER)
-        neat_management.run(eval_func=train_view.neat_eval_genome)
+        neat_management.run(eval_func=self.current_view.neat_eval_genome)
 
         # Save the best net
-        best_network = train_view.best_network
+        best_network = self.current_view.best_network
         with open(BEST_NETWORK_LOCATION, 'wb') as f:
             pickle.dump(best_network, f)
 
             # Make the final view
-        game = train_view.game
+        game = self.current_view.game
         self.current_view = FinalTrainAIView(game=game)
-        self.current_view.run_mainplay_view.run_main_loop()
+        self.current_view.run_main_loop()
 
     def run_test_ai(self):
 

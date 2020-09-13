@@ -4,7 +4,6 @@ from .view_management.view_template import View
 
 from objects.visual_objects import Bird, Pipe, Base
 from objects.game_objects import GamePlayAgainAI
-from objects.buttons import RectangularButton
 
 
 from config.config import *
@@ -18,7 +17,6 @@ class PlayAgaintAI(View):
         self.name = 'play_against_ai'
 
         self.game = GamePlayAgainAI()
-        self.replay = False
 
         self.best_network = best_network
 
@@ -33,14 +31,6 @@ class PlayAgaintAI(View):
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
         self.base = Base(y=INITIAL_BASE_Y)
-
-        self.replay_button = RectangularButton(font=REPLAY_BUTTON_FONT,
-                                               color=REPLAY_BUTTON_COLOR,
-                                               border=True,
-                                               center=REPLAY_BUTTON_CENTER,
-                                               height=REPLAY_BUTTON_HEIGHT,
-                                               width=REPLAY_BUTTON_WIDTH,
-                                               text=REPLAY_BUTTON_TEXT)
 
     def _main_loop(self):
 
@@ -71,11 +61,20 @@ class PlayAgaintAI(View):
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.game.active:
                 self.player_bird.jump()
 
-            # Restart the game
-            elif event.type == pygame.MOUSEBUTTONUP and not self.game.active:
-                if self.replay_button.is_under(pygame.mouse.get_pos()):
-                    self.replay = True
-                    self._quit_window()
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.mouse_position = pygame.mouse.get_pos()
+                self._press_on_restart()
+                self._press_on_return()
+
+    def _press_on_restart(self):
+        if not self.game.active and self.replay_button.is_under(self.mouse_position):
+            self.replay = True
+            self._quit_window()
+
+    def _press_on_return(self):
+        if self.return_button.is_under(mouse_position=self.mouse_position):
+            self.return_start_view = True
+            self._quit_window()
 
     def _make_ai_choose_jump(self):
 
@@ -158,6 +157,8 @@ class PlayAgaintAI(View):
         self.base.draw(window=self.window)
 
         self.game.draw_score(window=self.window)
+
+        self.return_button.draw(window=self.window)
 
     def _check_terminal_condition(self):
         if len(self.birds) == 1:

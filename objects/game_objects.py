@@ -1,4 +1,4 @@
-from .buttons import RectangularButton
+from .buttons import TextButton
 
 from config.config import *
 

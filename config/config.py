@@ -36,6 +36,16 @@ STAT_FONT = pygame.font.SysFont("comicsans", 40)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
+
+# Return button
+RETURN_BUTTON_WIDTH = 120
+RETURN_BUTTON_HEIGHT = 100
+RETURN_BUTTON_IMAGE = Image(path='img/return.png',
+                            scale=True, dimensions=(RETURN_BUTTON_WIDTH, RETURN_BUTTON_HEIGHT)).image
+RETURN_BUTTON_CENTER = ((9/10)*WINDOW_WIDTH, (1/20)*WINDOW_HEIGHT)
+RETURN_BUTTON_TEXT = 'Replay'
+
+
 ##### Start view #####
 
 # Title

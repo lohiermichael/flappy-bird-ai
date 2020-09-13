@@ -98,6 +98,12 @@ class TrainAIView(View):
             if event.type == pygame.QUIT:
                 self._quit_window()
 
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.mouse_position = pygame.mouse.get_pos()
+                # From parent
+                self._press_on_restart()
+                self._press_on_return()
+
     def _make_ai_choose_jump(self):
 
         # Determine which pipe we must focus on (first or second)
@@ -214,6 +220,8 @@ class TrainAIView(View):
         self.game.draw_score(window=self.window)
         self.game.draw_generation(window=self.window)
         self.game.draw_birds_count(window=self.window)
+
+        self.return_button.draw(window=self.window)
 
         pygame.display.update()
 

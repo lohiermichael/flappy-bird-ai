@@ -4,7 +4,6 @@ from .view_management.view_template import View
 
 from objects.visual_objects import Bird, Pipe, Base
 from objects.game_objects import GamePlay
-from objects.buttons import RectangularButton
 
 
 from config.config import *
@@ -29,14 +28,6 @@ class TestAIView(View):
 
         self.base = Base(y=INITIAL_BASE_Y)
 
-        self.replay_button = RectangularButton(font=REPLAY_BUTTON_FONT,
-                                               color=REPLAY_BUTTON_COLOR,
-                                               border=True,
-                                               center=REPLAY_BUTTON_CENTER,
-                                               height=REPLAY_BUTTON_HEIGHT,
-                                               width=REPLAY_BUTTON_WIDTH,
-                                               text=REPLAY_BUTTON_TEXT)
-
     def _main_loop(self):
 
         self._manage_events()
@@ -60,11 +51,11 @@ class TestAIView(View):
             if event.type == pygame.QUIT:
                 self._quit_window()
 
-            # Restart the game
-            elif event.type == pygame.MOUSEBUTTONUP and not self.game.active:
-                if self.replay_button.is_under(pygame.mouse.get_pos()):
-                    self.replay = True
-                    self._quit_window()
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.mouse_position = pygame.mouse.get_pos()
+                # From parent
+                self._press_on_restart()
+                self._press_on_return()
 
     def _make_ai_choose_jump(self):
 
@@ -143,5 +134,7 @@ class TestAIView(View):
         if not self.game.active:
             self.game.draw_end_game(window=self.window,
                                     replay_button=self.replay_button)
+
+        self.return_button.draw(window=self.window)
 
         pygame.display.update()
