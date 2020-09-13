@@ -34,7 +34,7 @@ You play a game of Flappy Bird.
 There is a count of your score.
 When the game ends you can replay the game.
 
-<!-- Image -->
+![Play view](img/explanations/play_view.gif)
 
 ### 2. Play Against AI
 
@@ -43,7 +43,7 @@ The AI/Computer in a **Blue** Flappy Bird.
 
 **Try to beat the AI!**
 
-<!-- Image -->
+![Play Against AI view](img/explanations/play_against_ai_view.gif)
 
 ### 3. Train AI
 
@@ -61,6 +61,8 @@ Each generation comprises a fixed number of birds: pop_size *(default value: 15)
 As a explanation, at the end of each generation, the algorithm will keep the birds that performed the best to create similar birds for the next generation.
 
 For more detailed explanation, [click here](http://nn.cs.utexas.edu/downloads/papers/stanley.cec02.pdf)
+
+![Train AI view](img/explanations/train_ai_view.gif)
 
 #### Tweak the parameters
 
@@ -81,7 +83,6 @@ In the view, i.e for each generation, will be displayed:
 
 **WARNING:** When you start this view, please be patient and keep it running until getting the result of the training. Then you can get back to the start view by clicking on the top right return button.
 
-<!-- Image -->
 
 ### 4. Test AI
 
@@ -89,7 +90,10 @@ At the end of **train mode**, after performing the genetic algorithm, we "save" 
 
 In the test view you can see this "Best bird" play.
 
+
+![Test AI view](img/explanations/test_ai_view.gif)
+
 Note that this best bird will also be the AI bird you play against in the "Play Against AI" mode.
 
-<!-- Image -->
 
+‹
