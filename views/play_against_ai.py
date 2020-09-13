@@ -32,9 +32,9 @@ class PlayAgaintAI(GameView):
 
         super()._main_loop()
 
-        self._update_score(with_bird=self.player_bird)
-
         self._make_ai_choose_jump()
+
+        self._update_score(with_bird=self.player_bird)
 
         self._check_terminal_condition()
 
@@ -94,8 +94,6 @@ class PlayAgaintAI(GameView):
 
             self.game.draw_end_game(window=self.window,
                                     replay_button=self.replay_button)
-
-        pygame.display.update()
 
     def _redraw_window(self):
         super()._redraw_window()
