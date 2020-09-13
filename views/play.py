@@ -16,18 +16,15 @@ class PlayView(View):
         self.name = 'main'
 
         self.game = GamePlay()
-        self.replay = False
 
         self.bird = Bird(x=INITIAL_BIRD_X,
                          y=INITIAL_BIRD_Y, bird_type='player')
 
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
-        self.base = Base(y=INITIAL_BASE_Y)
-
     def _main_loop(self):
 
-        self._manage_events()
+        super()._main_loop()
 
         self._manage_collisions()
 
@@ -37,24 +34,17 @@ class PlayView(View):
 
         self._update_score()
 
-        self._redraw_window()
+    def _manage_event(self, event):
 
-    def _manage_events(self):
+        super()._manage_event(event)
 
-        for event in pygame.event.get():
-            # Quite the window
-            if event.type == pygame.QUIT:
-                self._quit_window()
+        # Make the bird jump
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.game.active:
+            self.bird.jump()
 
-            # Make the bird jump
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.game.active:
-                self.bird.jump()
-
-            elif event.type == pygame.MOUSEBUTTONUP:
-                self.mouse_position = pygame.mouse.get_pos()
-                self._press_on_restart()
-                self._press_on_return()
-
+    def _manage_click_events(self):
+        super()._manage_click_events()
+        super()._click_on_restart()
 
     def _manage_collisions(self):
 
@@ -99,24 +89,23 @@ class PlayView(View):
                 self.game.score += 1
 
     def _redraw_window(self):
-        self.clock.tick(FPS)
-        self.window.blit(BACKGROUND_IMAGE,
-                         (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
 
+        super()._redraw_window()
+
+        # Bird
         self.bird.draw(window=self.window)
 
-        # Draw the pipe first and then the base
+        # Pipes
         for pipe in self.pipes:
             pipe.draw(window=self.window)
 
-        self.base.draw(window=self.window)
-
+        # Score
         self.game.draw_score(window=self.window)
 
+        # End game
         if not self.game.active:
             self.game.draw_end_game(window=self.window,
                                     replay_button=self.replay_button)
 
+        # Return button
         self.return_button.draw(window=self.window)
-
-        pygame.display.update()

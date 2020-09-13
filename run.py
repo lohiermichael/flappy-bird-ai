@@ -1,5 +1,5 @@
 import pygame
-
+from views.view_management.view_template import View
 from views.view_management.view_flow import ViewFlow
 
 if __name__ == "__main__":

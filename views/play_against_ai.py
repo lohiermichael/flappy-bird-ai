@@ -30,11 +30,9 @@ class PlayAgaintAI(View):
 
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
-        self.base = Base(y=INITIAL_BASE_Y)
-
     def _main_loop(self):
 
-        self._manage_events()
+        super()._main_loop()
 
         self._make_ai_choose_jump()
 
@@ -46,39 +44,20 @@ class PlayAgaintAI(View):
 
         self._update_score()
 
-        self._redraw_window()
-
         self._check_terminal_condition()
 
-    def _manage_events(self):
+    def _manage_event(self, event):
+        super()._manage_event(event)
 
-        for event in pygame.event.get():
-            # Quite the window
-            if event.type == pygame.QUIT:
-                self._quit_window()
+        # Make the bird jump
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.game.active:
+            self.player_bird.jump()
 
-            # Make the  player bird jump
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.game.active:
-                self.player_bird.jump()
-
-            elif event.type == pygame.MOUSEBUTTONUP:
-                self.mouse_position = pygame.mouse.get_pos()
-                self._press_on_restart()
-                self._press_on_return()
-
-    def _press_on_restart(self):
-        if not self.game.active and self.replay_button.is_under(self.mouse_position):
-            self.replay = True
-            self._quit_window()
-
-    def _press_on_return(self):
-        if self.return_button.is_under(mouse_position=self.mouse_position):
-            self.return_start_view = True
-            self._quit_window()
+    def _manage_click_events(self):
+        super()._manage_click_events()
+        super()._click_on_restart()
 
     def _make_ai_choose_jump(self):
-
-        # if self.game.active:
 
         # Determine which pipe we must focus on (first or second)
         pipe_index = 0
@@ -142,24 +121,6 @@ class PlayAgaintAI(View):
                 self.pipes.append(Pipe(x=INITIAL_PIPE_X))
                 self.game.score += 1
 
-    def _redraw_window(self):
-        self.clock.tick(FPS)
-        self.window.blit(BACKGROUND_IMAGE,
-                         (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
-
-        for bird in self.birds:
-            bird.draw(window=self.window)
-
-        # Draw the pipe first and then the base
-        for pipe in self.pipes:
-            pipe.draw(window=self.window)
-
-        self.base.draw(window=self.window)
-
-        self.game.draw_score(window=self.window)
-
-        self.return_button.draw(window=self.window)
-
     def _check_terminal_condition(self):
         if len(self.birds) == 1:
             self.game.active = False
@@ -168,3 +129,25 @@ class PlayAgaintAI(View):
                                     replay_button=self.replay_button)
 
         pygame.display.update()
+
+    def _redraw_window(self):
+        super()._redraw_window()
+
+        # Birds
+        for bird in self.birds:
+            bird.draw(window=self.window)
+
+        # Pipes
+        for pipe in self.pipes:
+            pipe.draw(window=self.window)
+
+        # Score
+        self.game.draw_score(window=self.window)
+
+        # End game
+        if not self.game.active:
+            self.game.draw_end_game(window=self.window,
+                                    replay_button=self.replay_button)
+
+        # Return button
+        self.return_button.draw(window=self.window)

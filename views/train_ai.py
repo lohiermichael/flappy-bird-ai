@@ -13,7 +13,6 @@ from config.neat.neat_config import NETWORK_CONFIG_FILE, FITNESS_DECREASE_DIE, F
 class TrainAIView(View):
 
     def __init__(self):
-        super().__init__()
 
         self.name = 'train_ai'
         self.game = GameTrainAI()
@@ -33,21 +32,18 @@ class TrainAIView(View):
         self.neat_config = config
 
         self._initialize_objects()
-
-        self.run_main_loop()
+        self.run()
 
     def _initialize_objects(self):
 
-        self.pipes = [Pipe(x=INITIAL_PIPE_X)]
+        super().__init__()
 
-        self.base = Base(y=INITIAL_BASE_Y)
+        self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
         self.game.score = 0
         self.game.generation += 1
         self.game.total_birds = len(self.neat_genomes)
         self.game.living_birds = len(self.neat_genomes)
-
-        self.active = True
 
         # The three following lists map on their index
         # Create lists for holding the genome (collection of birds)
@@ -73,7 +69,7 @@ class TrainAIView(View):
 
     def _main_loop(self):
 
-        self._manage_events()
+        super()._main_loop()
 
         self._make_ai_choose_jump()
 
@@ -85,24 +81,9 @@ class TrainAIView(View):
 
         self._pass_pipe()
 
-        self._redraw_window()
-
         self._update_best_net()
 
         self._check_terminal_condition()
-
-    def _manage_events(self):
-
-        for event in pygame.event.get():
-            # Quite the window
-            if event.type == pygame.QUIT:
-                self._quit_window()
-
-            elif event.type == pygame.MOUSEBUTTONUP:
-                self.mouse_position = pygame.mouse.get_pos()
-                # From parent
-                self._press_on_restart()
-                self._press_on_return()
 
     def _make_ai_choose_jump(self):
 
@@ -203,28 +184,6 @@ class TrainAIView(View):
         self.nets = [net for i_bird, net in enumerate(
             self.nets) if i_bird not in indices_birds_to_remove]
 
-    def _redraw_window(self):
-        self.clock.tick(FPS)
-        self.window.blit(BACKGROUND_IMAGE,
-                         (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
-
-        for bird in self.birds:
-            bird.draw(window=self.window)
-
-        # Draw the pipe first and then the base
-        for pipe in self.pipes:
-            pipe.draw(window=self.window)
-
-        self.base.draw(window=self.window)
-
-        self.game.draw_score(window=self.window)
-        self.game.draw_generation(window=self.window)
-        self.game.draw_birds_count(window=self.window)
-
-        self.return_button.draw(window=self.window)
-
-        pygame.display.update()
-
     def _update_best_net(self):
         if len(self.nets) == 1 and self.game.score > self.game.best_score:
             self.best_network = self.nets[0]
@@ -236,6 +195,32 @@ class TrainAIView(View):
             # Update best score
             self.game.best_score = max(self.game.score, self.game.best_score)
 
+    def _redraw_window(self):
+
+        super()._redraw_window()
+
+        # Birds
+        for bird in self.birds:
+            bird.draw(window=self.window)
+
+        # Pipe
+        for pipe in self.pipes:
+            pipe.draw(window=self.window)
+
+        # Score
+        self.game.draw_score(window=self.window)
+
+        # Generation
+        self.game.draw_generation(window=self.window)
+
+        # Birds count
+        self.game.draw_birds_count(window=self.window)
+
+        # Return button
+        self.return_button.draw(window=self.window)
+
+        pygame.display.update()
+
 
 class FinalTrainAIView(View):
     def __init__(self, game: GameTrainAI):
@@ -245,32 +230,14 @@ class FinalTrainAIView(View):
 
         self.name = 'final_train_ai'
 
-        self.base = Base(y=INITIAL_BASE_Y)
-
-    def _main_loop(self):
-
-        self._manage_events()
-
-        self._redraw_window()
-
-    def _manage_events(self):
-
-        for event in pygame.event.get():
-            # Quite the window
-            if event.type == pygame.QUIT:
-                self._quit_window()
-
     def _redraw_window(self):
-        self.clock.tick(FPS)
-        self.window.blit(BACKGROUND_IMAGE,
-                         (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
 
-        self.base.draw(window=self.window)
+        super()._redraw_window()
 
+        # Best score
         self.game.draw_best_score(window=self.window)
 
-        pygame.display.update()
-
+        # Return button
         self.return_button.draw(window=self.window)
 
 

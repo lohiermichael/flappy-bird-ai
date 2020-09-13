@@ -32,13 +32,13 @@ class ViewFlow:
 
     def run_start(self):
         self.current_view = StartView()
-        self.current_view.run_main_loop()
+        self.current_view.run()
 
     def run_play(self):
         replay = True
         while replay:
             self.current_view = PlayView()
-            self.current_view.run_main_loop()
+            self.current_view.run()
             replay = self.current_view.replay
 
     def run_train_ai(self):
@@ -58,7 +58,7 @@ class ViewFlow:
             # Make the final view
         game = self.current_view.game
         self.current_view = FinalTrainAIView(game=game)
-        self.current_view.run_main_loop()
+        self.current_view.run()
 
     def run_test_ai(self):
 
@@ -68,7 +68,7 @@ class ViewFlow:
         replay = True
         while replay:
             self.current_view = TestAIView(best_network=best_network)
-            self.current_view.run_main_loop()
+            self.current_view.run()
             replay = self.current_view.replay
 
     def run_play_against_ai(self):
@@ -79,5 +79,5 @@ class ViewFlow:
         replay = True
         while replay:
             self.current_view = PlayAgaintAI(best_network=best_network)
-            self.current_view.run_main_loop()
+            self.current_view.run()
             replay = self.current_view.replay

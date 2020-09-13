@@ -17,7 +17,6 @@ class TestAIView(View):
         self.name = 'test_ai'
 
         self.game = GamePlay()
-        self.replay = False
 
         self.best_network = best_network
 
@@ -26,11 +25,9 @@ class TestAIView(View):
 
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
-        self.base = Base(y=INITIAL_BASE_Y)
-
     def _main_loop(self):
 
-        self._manage_events()
+        super()._main_loop()
 
         self._make_ai_choose_jump()
 
@@ -41,21 +38,6 @@ class TestAIView(View):
         self._move_objects()
 
         self._update_score()
-
-        self._redraw_window()
-
-    def _manage_events(self):
-
-        for event in pygame.event.get():
-            # Quite the window
-            if event.type == pygame.QUIT:
-                self._quit_window()
-
-            elif event.type == pygame.MOUSEBUTTONUP:
-                self.mouse_position = pygame.mouse.get_pos()
-                # From parent
-                self._press_on_restart()
-                self._press_on_return()
 
     def _make_ai_choose_jump(self):
 
@@ -117,24 +99,23 @@ class TestAIView(View):
                 self.game.score += 1
 
     def _redraw_window(self):
-        self.clock.tick(FPS)
-        self.window.blit(BACKGROUND_IMAGE,
-                         (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
 
+        super()._redraw_window()
+
+        #  AI bird
         self.ai_bird.draw(window=self.window)
 
-        # Draw the pipe first and then the base
+        # Pipes
         for pipe in self.pipes:
             pipe.draw(window=self.window)
 
-        self.base.draw(window=self.window)
-
+        # Score
         self.game.draw_score(window=self.window)
 
+        # End game
         if not self.game.active:
             self.game.draw_end_game(window=self.window,
                                     replay_button=self.replay_button)
 
+        # Return button
         self.return_button.draw(window=self.window)
-
-        pygame.display.update()
