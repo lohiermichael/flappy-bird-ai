@@ -271,6 +271,8 @@ class FinalTrainAIView(View):
 
         pygame.display.update()
 
+        self.return_button.draw(window=self.window)
+
 
 class NeatManagement:
     def __init__(self, generations_number: int, config_file=None):
