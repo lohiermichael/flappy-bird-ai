@@ -3,7 +3,9 @@ import pygame
 from .view_management.view_template import View
 
 from objects.visual_objects import Bird, Pipe, Base
-from objects.game_objects import GamePlayAgainAI, RectangularButton
+from objects.game_objects import GamePlayAgainAI
+from objects.buttons import RectangularButton
+
 
 from config.config import *
 

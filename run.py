@@ -3,6 +3,7 @@ import pickle
 import pygame
 
 from views.view_management.view_template import View
+from views.start import StartView
 from views.play import PlayView
 from views.train_ai import TrainAIView, NeatManagement, FinalTrainAIView
 from views.test_ai import TestAIView
@@ -11,59 +12,78 @@ from views.play_against_ai import PlayAgaintAI
 from config.neat.neat_config import GENERATIONS_NUMBER, BEST_NETWORK_LOCATION
 
 
-def run_play():
-    replay = True
-    while replay:
-        play_view = PlayView()
-        play_view.start_main_loop()
-        replay = play_view.replay
+class ViewFlow:
+    def __init__(self):
+        self.current_view = None
 
+    def run(self):
 
-def run_train_ai():
+        self.run_start()
 
-    # Make the train view
-    train_view = TrainAIView()
+        if self.current_view.selected_game_type == 'Play Normal Game':
+            self.run_play()
+        elif self.current_view.selected_game_type == 'Train AI':
+            self.run_train_ai()
+        elif self.current_view.selected_game_type == 'Test AI':
+            self.run_test_ai()
+        elif self.current_view.selected_game_type == 'Play Against AI':
+            self.run_play_against_ai()
 
-    # Run the genetic algorithm on the eval genome method of the train view
-    neat_management = NeatManagement(generations_number=GENERATIONS_NUMBER)
-    neat_management.run(eval_func=train_view.neat_eval_genome)
+    def run_start(self):
+        self.current_view = StartView()
+        self.current_view.run_main_loop()
 
-    # Save the best net
-    best_network = train_view.best_network
-    with open(BEST_NETWORK_LOCATION, 'wb') as f:
-        pickle.dump(best_network, f)
+    def run_play(self):
+        replay = True
+        while replay:
+            self.current_view = PlayView()
+            self.current_view.run_main_loop()
+            replay = self.current_view.replay
 
-        # Make the final view
-    game = train_view.game
-    final_train_ai_view = FinalTrainAIView(game=game)
-    final_train_ai_view.start_main_loop()
+    def run_train_ai(self):
 
+        # Make the train view
+        self.current_view = TrainAIView()
 
-def run_test_ai():
+        # Run the genetic algorithm on the eval genome method of the train view
+        neat_management = NeatManagement(generations_number=GENERATIONS_NUMBER)
+        neat_management.run(eval_func=train_view.neat_eval_genome)
 
-    with open(BEST_NETWORK_LOCATION, 'rb') as f:
-        best_network = pickle.load(f)
+        # Save the best net
+        best_network = train_view.best_network
+        with open(BEST_NETWORK_LOCATION, 'wb') as f:
+            pickle.dump(best_network, f)
 
-    replay = True
-    while replay:
-        test_ai_view = TestAIView(best_network=best_network)
-        test_ai_view.start_main_loop()
-        replay = test_ai_view.replay
+            # Make the final view
+        game = train_view.game
+        self.current_view = FinalTrainAIView(game=game)
+        self.current_view.run_mainplay_view.run_main_loop()
 
+    def run_test_ai(self):
 
-def run_play_against_ai():
+        with open(BEST_NETWORK_LOCATION, 'rb') as f:
+            best_network = pickle.load(f)
 
-    with open(BEST_NETWORK_LOCATION, 'rb') as f:
-        best_network = pickle.load(f)
+        replay = True
+        while replay:
+            self.current_view = TestAIView(best_network=best_network)
+            self.current_view.run_main_loop()
+            replay = self.current_view.replay
 
-    replay = True
-    while replay:
-        play_against_ai_view = PlayAgaintAI(best_network=best_network)
-        play_against_ai_view.start_main_loop()
-        replay = play_against_ai_view.replay
+    def run_play_against_ai(self):
+
+        with open(BEST_NETWORK_LOCATION, 'rb') as f:
+            best_network = pickle.load(f)
+
+        replay = True
+        while replay:
+            self.current_view = PlayAgaintAI(best_network=best_network)
+            self.current_view.run_main_loop()
+            replay = self.current_view.replay
 
 
 if __name__ == "__main__":
     pygame.init()
 
-    run_play_against_ai()
+    view_flow = ViewFlow()
+    view_flow.run()

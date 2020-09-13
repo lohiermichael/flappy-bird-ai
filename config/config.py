@@ -22,12 +22,8 @@ class Image:
             self.image = pygame.transform.flip(self.image, False, True)
 
 
-WINDOW_WIDTH = 600
-WINDOW_HEIGHT = 800
-
 ####################### GAME #######################
 
-##### Play view #####
 
 WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 800
@@ -36,9 +32,32 @@ GRAVITY_CONSTANT = 3  # For birds (minus wings flapping)
 GAME_SPEED = 40
 STAT_FONT = pygame.font.SysFont("comicsans", 40)
 
+# Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+
+##### Start view #####
+
+# Title
+GAME_TITLE_IMAGE = Image(path='./img/start_game/game_title.png').image
+GAME_TITLE_X = (1/4)*WINDOW_WIDTH
+GAME_TITLE_Y = (1/10)*WINDOW_HEIGHT
+
+# Selection game type radio buttons
+SELECTION_GAME_TYPE_MESSAGES = [
+    'Play Normal Game', 'Play Against AI', 'Train AI', 'Test AI']
+SELECTION_GAME_TYPE_FONT = pygame.font.SysFont('Comic Sans MS', 30)
+SELECTION_GAME_TYPE_COLOR = WHITE
+SELECTION_GAME_TYPE_WIDTH = (1/2)*WINDOW_WIDTH
+SELECTION_GAME_TYPE_HEIGHT = (1/4) * WINDOW_HEIGHT
+SELECTION_GAME_TYPE_CENTER = ((1/2)*WINDOW_WIDTH, (1/2)*WINDOW_HEIGHT)
+
+
+##### Play view #####
+
 # Score
 SCORE_FONT = STAT_FONT
-SCORE_COLOR = (255, 255, 255)
+SCORE_COLOR = WHITE
 SCORE_X = 30
 SCORE_Y = 10
 
@@ -54,7 +73,7 @@ GAME_OVER_Y = 300
 
 # Replay button
 REPLAY_BUTTON_FONT = pygame.font.SysFont('Comic Sans MS', 30)
-REPLAY_BUTTON_COLOR = (0, 0, 0)
+REPLAY_BUTTON_COLOR = BLACK
 REPLAY_BUTTON_CENTER = (WINDOW_WIDTH/2, 450)
 REPLAY_BUTTON_WIDTH = 120
 REPLAY_BUTTON_HEIGHT = 50
@@ -70,13 +89,13 @@ GENERATION_Y = 35
 
 # Birds Count
 BIRDS_COUNT_FONT = STAT_FONT
-BIRDS_COUNT_COLOR = (255, 255, 255)
+BIRDS_COUNT_COLOR = WHITE
 BIRDS_COUNT_X = 30
 BIRDS_COUNT_Y = 60
 
 # Best score
 BEST_SCORE_FONT = STAT_FONT
-BEST_SCORE_COLOR = (255, 255, 255)
+BEST_SCORE_COLOR = WHITE
 BEST_SCORE_X = int(WINDOW_WIDTH/5)
 BEST_SCORE_Y = int(WINDOW_HEIGHT/2)
 

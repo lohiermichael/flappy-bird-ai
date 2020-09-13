@@ -27,7 +27,7 @@ class View:
         self.close_window = False
         self.active = False
 
-    def start_main_loop(self):
+    def run_main_loop(self):
         while self.active:
             self._main_loop()
 

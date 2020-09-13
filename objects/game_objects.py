@@ -1,4 +1,4 @@
-from .visual_objects import RectangularButton
+from .buttons import RectangularButton
 
 from config.config import *
 

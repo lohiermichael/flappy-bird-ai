@@ -34,7 +34,7 @@ class TrainAIView(View):
 
         self._initialize_objects()
 
-        self.start_main_loop()
+        self.run_main_loop()
 
     def _initialize_objects(self):
 
