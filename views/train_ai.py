@@ -1,7 +1,7 @@
 import pygame
 import neat
 
-from .view_management.view_template import View
+from .view_management.view_template import View, GameView
 
 from objects.visual_objects import Bird, Pipe, Base
 from objects.game_objects import GameTrainAI
@@ -10,7 +10,7 @@ from config.config import *
 from config.neat.neat_config import NETWORK_CONFIG_FILE, FITNESS_DECREASE_DIE, FITNESS_INCREASE_PASS_PIE, FITNESS_INCREASE_ON_MOVE
 
 
-class TrainAIView(View):
+class TrainAIView(GameView):
 
     def __init__(self):
 
@@ -37,8 +37,6 @@ class TrainAIView(View):
     def _initialize_objects(self):
 
         super().__init__()
-
-        self.pipes = [Pipe(x=INITIAL_PIPE_X)]
 
         self.game.score = 0
         self.game.generation += 1
@@ -73,12 +71,6 @@ class TrainAIView(View):
 
         self._make_ai_choose_jump()
 
-        self._manage_collisions()
-
-        self._manage_pipes()
-
-        self._move_objects()
-
         self._pass_pipe()
 
         self._update_best_net()
@@ -92,10 +84,6 @@ class TrainAIView(View):
         if len(self.birds) > 0:
             if len(self.pipes) > 1 and self.birds[0].x > self.pipes[0].x + self.pipes[0].WIDTH:
                 pipe_index = 1
-
-        # If no birds left, quit the game
-        else:
-            self._quit_window()
 
         for i_bird, bird in enumerate(self.birds):
 
@@ -126,26 +114,9 @@ class TrainAIView(View):
 
         self._remove_bird_on_indices(indices_birds_to_remove)
 
-    def _manage_pipes(self):
-
-        # Pipes to remove
-        pipes_to_remove = []
-
-        for pipe in self.pipes:
-            # If it gets off the screen add it to the list to remove
-            if pipe.x + pipe.WIDTH < 0:
-                pipes_to_remove.append(pipe)
-
-        for pipe_to_remove in pipes_to_remove:
-            self.pipes.remove(pipe_to_remove)
-
     def _move_objects(self):
 
-        # Base
-        self.base.move()
-        # Pipes
-        for pipe in self.pipes:
-            pipe.move()
+        super()._move_objects()
 
         # Grant each bird fitness on movement
         for i_bird, bird in enumerate(self.birds):
@@ -203,23 +174,11 @@ class TrainAIView(View):
         for bird in self.birds:
             bird.draw(window=self.window)
 
-        # Pipe
-        for pipe in self.pipes:
-            pipe.draw(window=self.window)
-
-        # Score
-        self.game.draw_score(window=self.window)
-
         # Generation
         self.game.draw_generation(window=self.window)
 
         # Birds count
         self.game.draw_birds_count(window=self.window)
-
-        # Return button
-        self.return_button.draw(window=self.window)
-
-        pygame.display.update()
 
 
 class FinalTrainAIView(View):
@@ -236,7 +195,6 @@ class FinalTrainAIView(View):
 
         # Best score
         self.game.draw_best_score(window=self.window)
-
         # Return button
         self.return_button.draw(window=self.window)
 

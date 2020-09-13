@@ -1,5 +1,6 @@
 from objects.buttons import ImageButton, TextButton
-from objects.visual_objects import Base
+from objects.visual_objects import Base, Pipe
+from objects.game_objects import Game
 
 from config.config import *
 
@@ -87,3 +88,82 @@ class View:
         if not self.game.active and self.replay_button.is_under(self.mouse_position):
             self.replay = True
             self._quit_window()
+
+
+class GameView(View):
+
+    def __init__(self):
+
+        super().__init__()
+
+        self.pipes = [Pipe(x=INITIAL_PIPE_X)]
+
+        # ...
+
+    def _main_loop(self):
+
+        super()._main_loop()
+
+        self._manage_collisions()
+
+        self._manage_pipes()
+
+        self._move_objects()
+
+        # ...
+
+    def _manage_click_events(self):
+
+        super()._manage_click_events()
+        super()._click_on_restart()
+
+    def _manage_pipes(self):
+
+        # Pipes to remove
+        pipes_to_remove = []
+
+        for pipe in self.pipes:
+            # If it gets off the screen add it to the list to remove
+            if pipe.x + pipe.WIDTH < 0:
+                pipes_to_remove.append(pipe)
+
+        for pipe_to_remove in pipes_to_remove:
+            self.pipes.remove(pipe_to_remove)
+
+    def _update_score(self, with_bird):
+        for pipe in self.pipes:
+            # If the pipe is passed create a new one
+            if not pipe.passed and pipe.x < with_bird.x:
+                pipe.passed = True
+                self.pipes.append(Pipe(x=INITIAL_PIPE_X))
+                self.game.score += 1
+
+    def _move_objects(self):
+
+        if self.game.active:
+            # Base
+            self.base.move()
+            # Pipes
+            for pipe in self.pipes:
+                pipe.move()
+
+    def _redraw_window(self):
+
+        super()._redraw_window()
+
+        # Pipes
+        for pipe in self.pipes:
+            pipe.draw(window=self.window)
+
+        # Score
+        self.game.draw_score(window=self.window)
+
+        # End game
+        if not self.game.active:
+            self.game.draw_end_game(window=self.window,
+                                    replay_button=self.replay_button)
+
+        # Return button
+        self.return_button.draw(window=self.window)
+
+        # ...
