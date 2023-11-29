@@ -6,7 +6,7 @@ from ..start import StartView
 from ..play import PlayView
 from ..train_ai import TrainAIView, NeatManagement, FinalTrainAIView
 from ..test_ai import TestAIView
-from ..play_against_ai import PlayAgaintAI
+from ..play_against_ai import PlayAgainstAI
 
 from config.neat.neat_config import GENERATIONS_NUMBER, BEST_NETWORK_LOCATION
 
@@ -78,6 +78,6 @@ class ViewFlow:
 
         replay = True
         while replay:
-            self.current_view = PlayAgaintAI(best_network=best_network)
+            self.current_view = PlayAgainstAI(best_network=best_network)
             self.current_view.run()
             replay = self.current_view.replay

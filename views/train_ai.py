@@ -46,7 +46,7 @@ class TrainAIView(GameView):
         # The three following lists map on their index
         # Create lists for holding the genome (collection of birds)
         self.genomes = []
-        # Create a list for holding theire neural networks
+        # Create a list for holding their neural networks
         self.nets = []
         # Create a list for holding th birds
         self.birds = []

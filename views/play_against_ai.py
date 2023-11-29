@@ -9,7 +9,7 @@ from objects.game_objects import GamePlayAgainAI
 from config.config import *
 
 
-class PlayAgaintAI(GameView):
+class PlayAgainstAI(GameView):
 
     def __init__(self, best_network):
         super().__init__()

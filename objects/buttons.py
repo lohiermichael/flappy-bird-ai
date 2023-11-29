@@ -41,17 +41,17 @@ class TextButton(Button):
         self.border = border
         self.text = text
 
-    def draw(self, window, outline=True, outline_thinkness=2, line_width=None):
+    def draw(self, window, outline=True, outline_thickness=2, line_width=None):
         """Call this method to draw a button on the screen"""
 
         if not line_width:
             line_width = 1 if self.border else -1
 
         if outline:
-            pygame.draw.rect(window, outline, (self.x-outline_thinkness,
-                                               self.y - outline_thinkness,
-                                               self.width+outline_thinkness*2,
-                                               self.height+outline_thinkness*2), line_width)
+            pygame.draw.rect(window, outline, (self.x-outline_thickness,
+                                               self.y - outline_thickness,
+                                               self.width+outline_thickness*2,
+                                               self.height+outline_thickness*2), line_width)
 
         pygame.draw.rect(window, self.color, (self.x,
                                               self.y,

@@ -6,9 +6,9 @@ The AI is trained on a NN/genetic algorithm using the library **Neat**
 ## References
 
 This game is inspired by the following tutorial:
+
 - [YouTube Playlist](https://www.youtube.com/playlist?list=PLzMcBGfZo4-lwGZWXz5Qgta_YNX3_vLS2)
 - [GitHub Repository](https://github.com/techwithtim/NEAT-Flappy-Bird)
-
 
 ## Installation
 
@@ -67,22 +67,24 @@ For more detailed explanation, [click here](http://nn.cs.utexas.edu/downloads/pa
 #### Tweak the parameters
 
 The two main parameters of the algorithm are:
+
 1. The generations number
 2. The number of birds by generation
 
 To modify these parameters:
+
 1. For **generation number**: you go in ```./config/neat/neat_config```, it is the ```GENERATIONS_NUMBER``` value
 2. For **number of birds by generation**: you go in ```./config/neat/network_config.txt```, it is the ```pop_size``` value
 
 #### About the view
 
 In the view, i.e for each generation, will be displayed:
+
 - The number of birds still alive
 - The score
 - The number of the generation we are running
 
 **WARNING:** When you start this view, please be patient and keep it running until getting the result of the training. Then you can get back to the start view by clicking on the top right return button.
-
 
 ### 4. Test AI
 
@@ -90,10 +92,6 @@ At the end of **train mode**, after performing the genetic algorithm, we "save" 
 
 In the test view you can see this "Best bird" play.
 
-
 ![Test AI view](img/explanations/test_ai_view.gif)
 
 Note that this best bird will also be the AI bird you play against in the "Play Against AI" mode.
-
-
-‹
