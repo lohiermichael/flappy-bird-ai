@@ -16,18 +16,16 @@ class ViewFlow:
         self.current_view = None
 
     def run(self):
-
         while self.current_view is None or self.current_view.return_start_view:
-
             self.run_start()
 
-            if self.current_view.selected_game_type == 'Play Normal Game':
+            if self.current_view.selected_game_type == "Play Normal Game":
                 self.run_play()
-            elif self.current_view.selected_game_type == 'Train AI':
+            elif self.current_view.selected_game_type == "Train AI":
                 self.run_train_ai()
-            elif self.current_view.selected_game_type == 'Test AI':
+            elif self.current_view.selected_game_type == "Test AI":
                 self.run_test_ai()
-            elif self.current_view.selected_game_type == 'Play Against AI':
+            elif self.current_view.selected_game_type == "Play Against AI":
                 self.run_play_against_ai()
 
     def run_start(self):
@@ -42,7 +40,6 @@ class ViewFlow:
             replay = self.current_view.replay
 
     def run_train_ai(self):
-
         # Make the train view
         self.current_view = TrainAIView()
 
@@ -52,7 +49,7 @@ class ViewFlow:
 
         # Save the best net
         best_network = self.current_view.best_network
-        with open(BEST_NETWORK_LOCATION, 'wb') as f:
+        with open(BEST_NETWORK_LOCATION, "wb") as f:
             pickle.dump(best_network, f)
 
             # Make the final view
@@ -61,8 +58,7 @@ class ViewFlow:
         self.current_view.run()
 
     def run_test_ai(self):
-
-        with open(BEST_NETWORK_LOCATION, 'rb') as f:
+        with open(BEST_NETWORK_LOCATION, "rb") as f:
             best_network = pickle.load(f)
 
         replay = True
@@ -72,8 +68,7 @@ class ViewFlow:
             replay = self.current_view.replay
 
     def run_play_against_ai(self):
-
-        with open(BEST_NETWORK_LOCATION, 'rb') as f:
+        with open(BEST_NETWORK_LOCATION, "rb") as f:
             best_network = pickle.load(f)
 
         replay = True

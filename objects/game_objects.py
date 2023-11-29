@@ -9,7 +9,7 @@ class Game:
         self.active = True
 
     def draw_score(self, window):
-        score_text = f'Score: {self.score}'
+        score_text = f"Score: {self.score}"
 
         score_label = SCORE_FONT.render(score_text, 1, SCORE_COLOR)
 
@@ -23,7 +23,6 @@ class GamePlay(Game):
         super().__init__()
 
     def draw_end_game(self, window, replay_button):
-
         # Draw game over message
         window.blit(GAME_OVER_IMAGE, (GAME_OVER_X, GAME_OVER_Y))
 
@@ -41,26 +40,25 @@ class GameTrainAI(Game):
         self.living_birds = 0
 
     def draw_generation(self, window):
-        generation_text = f'Generation: {self.generation}'
+        generation_text = f"Generation: {self.generation}"
 
-        generation_label = GENERATION_FONT.render(
-            generation_text, 1, GENERATION_COLOR)
+        generation_label = GENERATION_FONT.render(generation_text, 1, GENERATION_COLOR)
 
         window.blit(generation_label, (GENERATION_X, GENERATION_Y))
 
     def draw_birds_count(self, window):
-        birds_count_text = f'Birds count: {self.living_birds}/{self.total_birds}'
+        birds_count_text = f"Birds count: {self.living_birds}/{self.total_birds}"
 
         birds_count_label = BIRDS_COUNT_FONT.render(
-            birds_count_text, 1, BIRDS_COUNT_COLOR)
+            birds_count_text, 1, BIRDS_COUNT_COLOR
+        )
 
         window.blit(birds_count_label, (BIRDS_COUNT_X, BIRDS_COUNT_Y))
 
     def draw_best_score(self, window):
-        best_score_text = f'The best score of the AI is: {self.best_score}'
+        best_score_text = f"The best score of the AI is: {self.best_score}"
 
-        best_score_label = BEST_SCORE_FONT.render(
-            best_score_text, 1, BEST_SCORE_COLOR)
+        best_score_label = BEST_SCORE_FONT.render(best_score_text, 1, BEST_SCORE_COLOR)
 
         window.blit(best_score_label, (BEST_SCORE_X, BEST_SCORE_Y))
 
@@ -74,10 +72,10 @@ class GamePlayAgainAI(Game):
         self.winner = None
 
     def draw_end_game(self, window, replay_button):
-        if self.winner.bird_type == 'ai':
+        if self.winner.bird_type == "ai":
             window.blit(AI_WON_IMAGE, (AI_WON_X, AI_WON_Y))
 
-        elif self.winner.bird_type == 'player':
+        elif self.winner.bird_type == "player":
             window.blit(YOU_WON_IMAGE, (YOU_WON_X, YOU_WON_Y))
 
         # Draw replay button

@@ -9,24 +9,27 @@ class View:
     """Parent object"""
 
     def __init__(self):
-
         self.active = True
         self.clock = pygame.time.Clock()
 
-        self.replay_button = TextButton(font=REPLAY_BUTTON_FONT,
-                                        color=REPLAY_BUTTON_COLOR,
-                                        border=True,
-                                        center=REPLAY_BUTTON_CENTER,
-                                        height=REPLAY_BUTTON_HEIGHT,
-                                        width=REPLAY_BUTTON_WIDTH,
-                                        text=REPLAY_BUTTON_TEXT)
+        self.replay_button = TextButton(
+            font=REPLAY_BUTTON_FONT,
+            color=REPLAY_BUTTON_COLOR,
+            border=True,
+            center=REPLAY_BUTTON_CENTER,
+            height=REPLAY_BUTTON_HEIGHT,
+            width=REPLAY_BUTTON_WIDTH,
+            text=REPLAY_BUTTON_TEXT,
+        )
 
         self.replay = False
 
-        self.return_button = ImageButton(image=RETURN_BUTTON_IMAGE,
-                                         center=RETURN_BUTTON_CENTER,
-                                         height=RETURN_BUTTON_HEIGHT,
-                                         width=RETURN_BUTTON_WIDTH)
+        self.return_button = ImageButton(
+            image=RETURN_BUTTON_IMAGE,
+            center=RETURN_BUTTON_CENTER,
+            height=RETURN_BUTTON_HEIGHT,
+            width=RETURN_BUTTON_WIDTH,
+        )
 
         self.return_start_view = False
 
@@ -36,7 +39,7 @@ class View:
 
     def _initialize_window(self):
         self.window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        pygame.display.set_caption('Flappy Bird AI')
+        pygame.display.set_caption("Flappy Bird AI")
 
     def run(self):
         while self.active:
@@ -61,16 +64,13 @@ class View:
         # ...
 
     def _manage_click_events(self):
-
         self.mouse_position = pygame.mouse.get_pos()
         self._click_on_return()
 
         # ...
 
     def _redraw_window(self):
-
-        self.window.blit(BACKGROUND_IMAGE,
-                         (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
+        self.window.blit(BACKGROUND_IMAGE, (INITIAL_BACKGROUND_X, INITIAL_BACKGROUND_Y))
 
         self.base.draw(window=self.window)
 
@@ -91,9 +91,7 @@ class View:
 
 
 class GameView(View):
-
     def __init__(self):
-
         super().__init__()
 
         self.pipes = [Pipe(x=INITIAL_PIPE_X)]
@@ -101,7 +99,6 @@ class GameView(View):
         # ...
 
     def _main_loop(self):
-
         super()._main_loop()
 
         self._manage_collisions()
@@ -113,12 +110,10 @@ class GameView(View):
         # ...
 
     def _manage_click_events(self):
-
         super()._manage_click_events()
         super()._click_on_restart()
 
     def _manage_pipes(self):
-
         # Pipes to remove
         pipes_to_remove = []
 
@@ -139,7 +134,6 @@ class GameView(View):
                 self.game.score += 1
 
     def _move_objects(self):
-
         if self.game.active:
             # Base
             self.base.move()
@@ -148,7 +142,6 @@ class GameView(View):
                 pipe.move()
 
     def _redraw_window(self):
-
         super()._redraw_window()
 
         # Pipes
@@ -160,8 +153,9 @@ class GameView(View):
 
         # End game
         if not self.game.active:
-            self.game.draw_end_game(window=self.window,
-                                    replay_button=self.replay_button)
+            self.game.draw_end_game(
+                window=self.window, replay_button=self.replay_button
+            )
 
         # Return button
         self.return_button.draw(window=self.window)

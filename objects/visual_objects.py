@@ -24,12 +24,12 @@ class Bird:
             y (int): Starting y position of the bird (top left corner)
         """
 
-        assert bird_type in ['ai', 'player']
+        assert bird_type in ["ai", "player"]
 
         self.bird_type = bird_type
-        if bird_type == 'ai':
+        if bird_type == "ai":
             self.IMAGES = AI_BIRD_IMAGES
-        elif bird_type == 'player':
+        elif bird_type == "player":
             self.IMAGES = PLAYER_BIRD_IMAGES
 
         self.x = x
@@ -39,7 +39,7 @@ class Bird:
         self.velocity = 0
         self.start_jump_height = self.y
         self.image_count = 0
-        self.image = self.IMAGES['wings_up']
+        self.image = self.IMAGES["wings_up"]
 
     def jump(self):
         """Make the bird jump"""
@@ -50,14 +50,16 @@ class Bird:
 
     def move(self):
         """
-            Make the bird move up and down
-            depending on the values set in the jump method
+        Make the bird move up and down
+        depending on the values set in the jump method
         """
 
         self.tick_count += 1
 
-        displacement = 0.5 * GRAVITY_CONSTANT * \
-            (self.tick_count)**2 + self.velocity * self.tick_count
+        displacement = (
+            0.5 * GRAVITY_CONSTANT * (self.tick_count) ** 2
+            + self.velocity * self.tick_count
+        )
 
         # Terminal velocity
         displacement = min(displacement, 16)
@@ -69,7 +71,10 @@ class Bird:
         self.y = self.y + displacement
 
         # Tilt up: moving up or moving down with inertia
-        if displacement < 0 or self.y < self.start_jump_height + self.VERTICAL_INERTIA_HEIGHT:
+        if (
+            displacement < 0
+            or self.y < self.start_jump_height + self.VERTICAL_INERTIA_HEIGHT
+        ):
             self.tilt = max(self.MAX_ROTATION, self.tilt)
 
         # Tilt down
@@ -89,26 +94,25 @@ class Bird:
 
         # Animate the bird
         if self.image_count <= self.ANIMATION_TIME:
-            self.image = self.IMAGES['wings_up']
-        elif self.image_count <= self.ANIMATION_TIME*2:
-            self.image = self.IMAGES['wings_middle']
-        elif self.image_count <= self.ANIMATION_TIME*3:
-            self.image = self.IMAGES['wings_down']
-        elif self.image_count <= self.ANIMATION_TIME*4:
-            self.image = self.IMAGES['wings_middle']
-        elif self.image_count == self.ANIMATION_TIME*4 + 1:
-            self.image = self.IMAGES['wings_up']
+            self.image = self.IMAGES["wings_up"]
+        elif self.image_count <= self.ANIMATION_TIME * 2:
+            self.image = self.IMAGES["wings_middle"]
+        elif self.image_count <= self.ANIMATION_TIME * 3:
+            self.image = self.IMAGES["wings_down"]
+        elif self.image_count <= self.ANIMATION_TIME * 4:
+            self.image = self.IMAGES["wings_middle"]
+        elif self.image_count == self.ANIMATION_TIME * 4 + 1:
+            self.image = self.IMAGES["wings_up"]
             self.image_count = 0
 
         # Make the bird not flap when it is nose diving
         if self.tilt <= self.MAX_TILT_DOWN:
-            self.image = self.IMAGES['wings_middle']
-            self.image_count = self.ANIMATION_TIME*2
+            self.image = self.IMAGES["wings_middle"]
+            self.image_count = self.ANIMATION_TIME * 2
 
-        blit_rotate_center(window=window,
-                           image=self.image,
-                           top_left=(self.x, self.y),
-                           angle=self.tilt)
+        blit_rotate_center(
+            window=window, image=self.image, top_left=(self.x, self.y), angle=self.tilt
+        )
 
     def collide_pipe(self, pipe):
         """The bird collides a pipe
@@ -119,8 +123,9 @@ class Bird:
         Returns:
             bool: if it collides or not
         """
-        on_x_of_pipe = (self.x + self.image.get_width() >
-                        pipe.x and self.x < pipe.x + pipe.WIDTH)
+        on_x_of_pipe = (
+            self.x + self.image.get_width() > pipe.x and self.x < pipe.x + pipe.WIDTH
+        )
         # Collision with top part
         if on_x_of_pipe and self.y < pipe.y_top:
             return True
@@ -168,7 +173,8 @@ def blit_rotate_center(window, image, top_left, angle):
     rotated_image = pygame.transform.rotate(image, angle)
     # Rotate around the center
     new_rectangle = rotated_image.get_rect(
-        center=image.get_rect(topleft=top_left).center)
+        center=image.get_rect(topleft=top_left).center
+    )
     window.blit(rotated_image, new_rectangle.topleft)
 
 
@@ -179,8 +185,8 @@ class Pipe:
     GAP = 250
     VELOCITY = GAME_SPEED
     IMAGES = PIPE_IMAGES
-    HEIGHT = IMAGES['top'].get_height()
-    WIDTH = IMAGES['top'].get_width()
+    HEIGHT = IMAGES["top"].get_height()
+    WIDTH = IMAGES["top"].get_width()
 
     # img_height = 320
     # img_height * 2 + gap = 840
@@ -203,8 +209,7 @@ class Pipe:
         self.y_bottom = self.y_top + self.GAP
 
     def move(self):
-        """Move the pipe based on velocity
-        """
+        """Move the pipe based on velocity"""
         self.x -= self.VELOCITY
 
     def draw(self, window):
@@ -214,8 +219,8 @@ class Pipe:
             window : Pygame window
         """
 
-        window.blit(self.IMAGES['top'], (self.x, self.top_height))
-        window.blit(self.IMAGES['bottom'], (self.x, self.y_bottom))
+        window.blit(self.IMAGES["top"], (self.x, self.top_height))
+        window.blit(self.IMAGES["bottom"], (self.x, self.y_bottom))
 
 
 class Base:
@@ -258,6 +263,3 @@ class Base:
 
         window.blit(self.IMAGE, (self.x1, self.y))
         window.blit(self.IMAGE, (self.x2, self.y))
-
-
-
