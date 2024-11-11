@@ -1,97 +1,105 @@
-# flappy-bird-ai
+<div align="center">
 
-The game of Flappy Bird played by an AI.
-The AI is trained on a NN/genetic algorithm using the library **Neat**
+# Flappy Bird AI
 
-## References
+<img
+  src="img/explanations/start_view.png"
+  alt="Start View"
+  width="600"
+  style="max-width: 100%;">
+</div>
 
-This game is inspired by the following tutorial:
+A Python implementation of Flappy Bird featuring AI gameplay using the NEAT
+(NeuroEvolution of Augmenting Topologies) genetic algorithm.
 
-- [YouTube Playlist](https://www.youtube.com/playlist?list=PLzMcBGfZo4-lwGZWXz5Qgta_YNX3_vLS2)
-- [GitHub Repository](https://github.com/techwithtim/NEAT-Flappy-Bird)
+## ✨ Features
+- **Multiple Game Modes**: Play solo, compete against AI, train new AI models,
+or watch AI gameplay
+- **NEAT Implementation**: Neural network/genetic algorithm using the NEAT
+library
+- **Customizable Parameters**: Adjust generation count and population size
+- **Performance Tracking**: Real-time display of alive birds, current score,
+and generation number
+- **Interactive UI**: Easy navigation between different modes with intuitive
+controls
 
-## Installation
+## 🎮 Game Modes
 
-Install the dependencies:
-
-```pip install -r requirements.txt```
-
-Run the game:
-
-```python run.py```
-
-## What the game offers
-
-There are four modes in this game:
-
-![Start view](img/explanations/start_view.png)
-
-In each of the views of these four modes, there is a button in the top right corner to get back to this start/landing view.
-
-### 1. Play normal game
-
-You play a game of Flappy Bird.
-There is a count of your score.
-When the game ends you can replay the game.
+### 1. Solo Play
+Classic Flappy Bird gameplay with score tracking and instant replay option.
 
 ![Play view](img/explanations/play_view.gif)
 
-### 2. Play Against AI
-
-You play a **Orange** Flappy Bird.
-The AI/Computer in a **Blue** Flappy Bird.
-
-**Try to beat the AI!**
+### 2. AI Competition
+Play as an **Orange** Flappy Bird against the AI's **Blue** Flappy Bird. Test
+your skills against the trained neural network!
 
 ![Play Against AI view](img/explanations/play_against_ai_view.gif)
 
-### 3. Train AI
-
-You can make your own AI by training it.
-When opening this view, you will start running the genetic algorithm.
-
-#### Algorithm quick explanation
-
-It works as follows:
-
-There are a fixed number of generations *(default value: 10)* that corresponds to a game of Flappy Bird
-
-Each generation comprises a fixed number of birds: pop_size *(default value: 15)* that play the same game at the same time.
-
-As a explanation, at the end of each generation, the algorithm will keep the birds that performed the best to create similar birds for the next generation.
-
-For more detailed explanation, [click here](http://nn.cs.utexas.edu/downloads/papers/stanley.cec02.pdf)
+### 3. AI Training
+Run the genetic algorithm to create new AI models. Watch multiple birds learn
+simultaneously with real-time performance metrics.
 
 ![Train AI view](img/explanations/train_ai_view.gif)
 
-#### Tweak the parameters
+#### Training Process
+- Fixed number of generations (default: 10)
+- Each generation has multiple birds (default: 15)
+- Best performers are selected to create the next generation
+- Full algorithm details in [NEAT paper](http://nn.cs.utexas.edu/downloads/papers/stanley.cec02.pdf)
 
-The two main parameters of the algorithm are:
-
-1. The generations number
-2. The number of birds by generation
-
-To modify these parameters:
-
-1. For **generation number**: you go in ```./config/neat/neat_config```, it is the ```GENERATIONS_NUMBER``` value
-2. For **number of birds by generation**: you go in ```./config/neat/network_config.txt```, it is the ```pop_size``` value
-
-#### About the view
-
-In the view, i.e for each generation, will be displayed:
-
-- The number of birds still alive
-- The score
-- The number of the generation we are running
-
-**WARNING:** When you start this view, please be patient and keep it running until getting the result of the training. Then you can get back to the start view by clicking on the top right return button.
-
-### 4. Test AI
-
-At the end of **train mode**, after performing the genetic algorithm, we "save" the "Best bird".
-
-In the test view you can see this "Best bird" play.
+### 4. AI Exhibition
+Watch the best-performing AI play the game. This is the same model used in
+Competition mode.
 
 ![Test AI view](img/explanations/test_ai_view.gif)
 
-Note that this best bird will also be the AI bird you play against in the "Play Against AI" mode.
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.7 or higher
+- pip package manager
+
+### Installation
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/flappy-bird-ai.git
+cd flappy-bird-ai
+```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+3. Launch the game:
+```bash
+python run.py
+```
+
+## ⚙️ Configuration
+
+### Training Parameters
+1. Modify generation count:
+   - Edit `./config/neat/neat_config`
+   - Update `GENERATIONS_NUMBER` value
+
+2. Adjust population size:
+   - Edit `./config/neat/network_config.txt`
+   - Update `pop_size` value
+
+### Training View Information
+During training, you'll see:
+- Number of birds still alive
+- Current score
+- Generation number
+
+**Note:** Please allow the training to complete before returning to the start
+view.
+
+## 🧠 NEAT Algorithm Overview
+The genetic algorithm follows these steps:
+1. Initialize population with random neural networks
+2. For each generation:
+   - All birds play simultaneously
+   - Evaluate
