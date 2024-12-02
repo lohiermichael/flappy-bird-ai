@@ -1,7 +1,5 @@
 import pickle
 
-import pygame
-
 from ..start import StartView
 from ..play import PlayView
 from ..train_ai import TrainAIView, NeatManagement, FinalTrainAIView
