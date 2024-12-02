@@ -2,7 +2,7 @@ import pygame
 
 from .view_management.view_template import GameView
 
-from objects.visual_objects import Bird, Pipe, Base
+from objects.visual_objects import Bird
 from objects.game_objects import GamePlay
 
 from config.config import *
